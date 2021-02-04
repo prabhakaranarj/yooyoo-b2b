@@ -1,0 +1,58 @@
+<div class="control-section col-md-12 yooyoo">
+  <ejs-grid #grid [showColumnMenu]="false" [allowReordering]="false" [gridLines]="line" [allowPaging]="true"
+    [allowSorting]="true" [allowFiltering]="true" [allowExcelExport]="true" [allowGrouping]="false"
+    [searchSettings]="searchSettings" [editSettings]="editSettings" [filterSettings]="filterOptions"
+    [pageSettings]="pageSettings" [toolbar]="toolbar" [dataSource]="topics" (toolbarClick)="onToolbarClick($event)"
+    (actionBegin)="actionBegin($event)" (actionComplete)="actionComplete($event)" height=345>
+    <e-columns>
+      <e-column field="name" [isPrimaryKey]="true" headerText="TOPIC NAME" textAlign="left" width="150"></e-column>
+      <e-column field="worksheetLink" headerText="WORKSHEET LINK" textAlign="left" width="350">
+      </e-column>
+      <e-column field="workSheetImage" headerText="THUMBNAIL" textAlign="left" width="120">
+        <ng-template #template let-data>
+          <img src="{{thumbnailUrl + data.workSheetImage}}" height="50" />
+        </ng-template>
+      </e-column>
+      <e-column headerText="VIEW" textAlign="left" width="100">
+        <ng-template #template let-data>
+          <button type="button" class="btn btn-googleplus waves-effect waves-light"
+            (click)="openWorksheet(data.worksheetLink)">
+            <i class="far fa-file-pdf m-r-5"></i>
+          </button>
+        </ng-template>
+      </e-column>
+    </e-columns>
+    <ng-template #editSettingsTemplate let-data>
+      <div ngForm #worksheetForm="ngForm" class="quiz">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <div class="e-float-input e-control-wrapper">
+              <input class="e-input e-field" required [(ngModel)]="worksheetData.worksheetLink" name="worksheetLink"
+                id="worksheetLink" type="text" />
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top" for="worksheetLink">Worksheet Link</label>
+            </div>
+          </div>
+          <div class="form-group col-md-12">
+            <div class="e-float-input e-control-wrapper">
+              <input class="e-input e-field" required [(ngModel)]="worksheetData.workSheetImage" name="workSheetImage"
+                id="workSheetImage" type="text" (keydown.enter)="preventDefault($event)" />
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top" for="workSheetImage">Thumbnail Link</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="e-control-wrapper pull-right">
+            <button type="submit" [disabled]="worksheetForm.invalid" class="e-control e-btn e-primary e-flat"
+              (click)="onSubmit()"> Save </button>
+            <button type="button" class="e-control e-btn e-flat" (click)="cancel()"> Cancel </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ejs-grid>
+  <ejs-dialog id="dialog" isModal="true" #Dialog (close)="dialogClose()" [visible]="false" showOnInit="false"
+    showCloseIcon="false" [content]="dialogContent">
+  </ejs-dialog>
+</div>

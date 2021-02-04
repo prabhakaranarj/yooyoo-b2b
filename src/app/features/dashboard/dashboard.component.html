@@ -1,0 +1,134 @@
+<!-- end page title end breadcrumb -->
+<div class="row dasshboard">
+  <div class="col-lg-2 col-md-4 col-sm-6" >
+    <div class="card-box widget-box-one"
+      style="border:1px solid rgb(235, 236, 236) !important; cursor: pointer; width: 200px;" [routerLink]="['/users']"
+      routerLinkActive="router-link-active">
+      <i class="mdi mdi-chart-areaspline widget-one-icon"></i>
+      <div class="wigdet-one-content">
+        <h4> User <small><i class="fas fa-users text-success"></i></small>
+        </h4>
+      </div>
+    </div>
+  </div>
+  <!-- end col -->
+  <div class="col-lg-2 col-md-4 col-sm-6">
+    <div class="card-box widget-box-one"
+      style="border:1px solid rgb(235, 236, 236) !important; cursor: pointer; width: 200px;"
+      [routerLink]="['/assignment']" routerLinkActive="router-link-active">
+      <i class="mdi mdi-account-convert widget-one-icon"></i>
+      <div class="wigdet-one-content">
+        <h4> Assignment <small><i class="fas fa-tasks text-danger"></i></small>
+        </h4>
+      </div>
+    </div>
+    <b> </b>
+  </div>
+  <!-- end col
+  -->
+  <div class="col-lg-2 col-md-4 col-sm-6">
+    <div class="card-box widget-box-one"
+      style="border:1px solid rgb(235, 236, 236) !important; cursor: pointer; width: 200px;" [routerLink]="['/reports']"
+      routerLinkActive="router-link-active">
+      <i class="mdi mdi-layers widget-one-icon"></i>
+      <div class="wigdet-one-content">
+        <h4> Reports <small><i class="mdi mdi-comment-text text-success"></i></small>
+        </h4>
+      </div>
+    </div>
+  </div>
+  <!-- end col -->
+  <div class="col-lg-2 col-md-4 col-sm-6" *ngIf="urole == 'SCHOOLOWNER' || urole == 'TEACHER'">
+    <div class="card-box widget-box-one"
+      style="border:1px solid rgb(235, 236, 236) !important; cursor: pointer; width: 200px;"
+      [routerLink]="['/attendance']" routerLinkActive="router-link-active">
+      <i class="mdi mdi-av-timer widget-one-icon"></i>
+      <div class="wigdet-one-content">
+        <h4> Attendance <small><i class="mdi mdi-book-multiple text-danger"></i></small>
+        </h4>
+      </div>
+      <b> </b>
+    </div>
+    <b> </b>
+  </div>
+  <!-- end col
+    --><b></b>
+  <div class="col-lg-2 col-md-4 col-sm-6" *ngIf="urole == 'SCHOOLOWNER' || urole == 'SUPERADMIN'">
+    <div class="card-box widget-box-one"
+      style="border:1px solid rgb(235, 236, 236) !important; cursor: pointer; width: 200px;" [routerLink]="['/fees']"
+      routerLinkActive="router-link-active">
+      <i class="mdi mdi-account-multiple widget-one-icon"></i>
+      <div class="wigdet-one-content">
+        <h4> Fees <small><i class="fas fa-money-bill text-success"></i></small>
+        </h4>
+      </div>
+      <b> </b>
+    </div>
+    <b> </b>
+  </div>
+  <!-- end col
+      -->
+  <div class="col-lg-2 col-md-4 col-sm-6">
+    <div class="card-box widget-box-one"
+      style="border:1px solid rgb(235, 236, 236) !important; cursor: pointer; width: 200px;"
+      [routerLink]="['/notifications']" routerLinkActive="router-link-active">
+      <i class="mdi mdi-download widget-one-icon"></i>
+      <div class="wigdet-one-content">
+        <h4> Notice Board <small><i class="fas fa-bell text-danger"></i></small>
+        </h4>
+      </div>
+    </div>
+  </div>
+  <!-- end col
+        -->
+</div>
+<b><b><b>
+      <!-- end row -->
+      <div class="">
+        <div class="col-md-12">
+          <div class="card-box">
+              <div class="col-md-4">
+                <div class="demo-box text-center">
+                  <h4 class="header-title m-t-0">Topics Learnt</h4>
+                    <ejs-accumulationchart #pie1 [legendSettings]="legendSettings" [tooltip]="tooltip"
+                       height="300" [enableSmartLabels]="true" [enableAnimation]="true">
+                      <e-accumulation-series-collection>
+                        <e-accumulation-series [dataSource]="assignmentData[0]" xName="x" yName="y" [startAngle]="0"
+                          [endAngle]="360" innerRadius="30%" [dataLabel]="dataLabel">
+                        </e-accumulation-series>
+                      </e-accumulation-series-collection>
+                    </ejs-accumulationchart>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="demo-box text-center">
+                  <h4 class="header-title m-t-0">WorkSheets Practiced</h4>
+                    <ejs-accumulationchart #pie1 [legendSettings]="legendSettings" [tooltip]="tooltip"
+                       height="300" [enableSmartLabels]="true" [enableAnimation]="true">
+                      <e-accumulation-series-collection>
+                        <e-accumulation-series [dataSource]="assignmentData[1]" xName="x" yName="y" [startAngle]="0"
+                          [endAngle]="360" innerRadius="30%" [dataLabel]="dataLabel">
+                        </e-accumulation-series>
+                      </e-accumulation-series-collection>
+                    </ejs-accumulationchart>
+                </div>
+              </div>
+              <!-- end row -->
+              <div class="col-md-4">
+                <div class="demo-box text-center">
+                  <h4 class="header-title m-t-0">Quizzes Attented</h4>
+                    <ejs-accumulationchart #pie1 [legendSettings]="legendSettings" [tooltip]="tooltip"
+                       height="300" [enableSmartLabels]="true" [enableAnimation]="true">
+                      <e-accumulation-series-collection>
+                        <e-accumulation-series [dataSource]="assignmentData[2]" xName="x" yName="y" [startAngle]="0"
+                          [endAngle]="360" innerRadius="30%" [dataLabel]="dataLabel">
+                        </e-accumulation-series>
+                      </e-accumulation-series-collection>
+                    </ejs-accumulationchart>
+                </div>
+              </div>
+            </div>
+          <!-- end row -->
+        </div>
+      </div>
+    </b></b></b>

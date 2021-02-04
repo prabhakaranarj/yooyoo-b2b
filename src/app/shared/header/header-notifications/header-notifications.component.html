@@ -1,0 +1,19 @@
+<div class="control-section">
+  <ejs-listview
+    id="List"
+    [dataSource]="notifications"
+    headerTitle="Notification List"
+    cssClass="e-list-template"
+    [showHeader]="true"
+    sortOrder="Ascending"
+  >
+    <ng-template #template let-data="">
+      <div class="e-list-wrapper e-list-multi-line e-list-avatar ">
+        <div class="user-list-item">
+          <span class="e-list-item-header">{{ data.header }}</span>
+          <span class="e-list-content">{{ data.message }}</span>
+        </div>
+      </div>
+    </ng-template>
+  </ejs-listview>
+</div>

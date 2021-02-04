@@ -1,0 +1,32 @@
+{
+  "git.ignoreLimitWarning": false,
+  "files.exclude": {
+    "e2e": true,
+    "src/app/*.js": true,
+    "src/app/*.map": true,
+    "src/app/**/*.spec.ts": true,
+    "src/app/main.ts": true,
+    "src/app/polyfills.ts": true,
+    "src/*.ts": true,
+    "src/*.json": true,
+    "src/karma*": true,
+    "src/environments": true,
+    "src/browserslist": true,
+    "src/favicon*": true,
+    "package-lock.json": true,
+    "back-end/package-lock.json": true,
+    ".editorconfig": true,
+    "README.md": true,
+    "tsconfig.json": true,
+    "tslint.json": true,
+    "back-end/views": true,
+    "back-end/public": true,
+    "back-end/bin": true,
+    "**/node_modules/": true,
+    "**/.gitignore": true,
+    ".vscode": true,
+    "*.txt": true,
+    ".*": true, //
+    "**/._*": true
+  }
+}

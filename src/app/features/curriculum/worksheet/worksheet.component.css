@@ -1,0 +1,52 @@
+.quiz .form-group.col-md-4 {
+  width: 500px;
+}
+
+.e-style {
+  margin-top: 20px !important;
+}
+
+.y-date {
+  margin-left: 12px;
+}
+
+.genderLbl {
+  margin-top: -20px;
+}
+
+.e-label {
+  margin-right: 10px;
+  margin-left: -5px;
+}
+.e-card {
+  margin-bottom: 5px !important;
+}
+.px-15 {
+  padding: 0 15px;
+}
+
+.switch-label {
+  margin-top: -20px;
+}
+
+.clearfix {
+  clear: both;
+}
+.questions {
+  display: inline-flex;
+  width: 280px !important;
+}
+
+.answers {
+  width: 25px !important;
+  /* margin-left: 10px !important;
+  margin-bottom: 10px !important; */
+  bottom: 15px !important;
+}
+.action {
+  z-index: 1000;
+  position: relative;
+}
+.worksheetImage{
+  height: 100px;
+}

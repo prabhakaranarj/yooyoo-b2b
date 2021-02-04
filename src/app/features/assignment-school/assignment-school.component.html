@@ -1,0 +1,79 @@
+<div class="container">
+  <!-- <div class="row" style="margin-top:5px;" >
+    <div class="col-md-12 col-xs-12">
+      <div class="col-md-2">
+      </div>
+    </div>
+  </div> -->
+  <div id="calendar" class="fc fc-unthemed fc-ltr">
+    <div class="fc-toolbar">
+      <div class="fc-left">
+        <div class="button-group">
+          <button type="button" class="fc-prev-button fc-button fc-state-default fc-corner-left"
+            (click)="onClickPrevious()">
+            <span class="fc-icon fc-icon-left-single-arrow"></span>
+          </button>
+          <button type="button" class="fc-next-button fc-button fc-state-default fc-corner-right"
+            (click)="onClickNext()">
+            <span class="fc-icon fc-icon-right-single-arrow"></span>
+          </button>
+        </div>
+        <button type="button" class="fc-today-button fc-button fc-state-default fc-corner-left fc-corner-right"
+          (click)="onClickToday()"> today </button>
+      </div>
+      <div class="fc-right">
+        <ejs-dropdownlist #schoolId [dataSource]="schoolData" [fields]="{ value: 'id', text: 'name' }" placeholder="School"
+          name="schoolId" (select)="onChangeSchool($event)" [ngClass]="
+              urole !== 'SUPERADMIN' && urole !== 'YOOYOOADMIN' ? 'hidden' : ''
+            "></ejs-dropdownlist>
+        <ejs-dropdownlist #grade [dataSource]="gradeData" placeholder="Class"
+          (select)="onSearch($event.itemData.value)" class="e-input y-date"></ejs-dropdownlist>
+        <ejs-daterangepicker #range class="y-date" (change)="deposit()"></ejs-daterangepicker>
+      </div>
+      <div class="fc-center">
+        <h2>{{ this.displayDate }}</h2>
+      </div>
+      <div class="fc-clear"></div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:0px;">
+    <div class="col-lg-6 col-md-6" *ngFor="let assignment of assignments">
+      <div class="card-box widget-box-two widget-two-primary">
+        <div class="checkbox-purple">
+          <label for="checkbox6a"> {{ assignment.subject.name }} : {{ assignment.topic.name }} </label>
+          <span class="pull-right">
+            <label for="checkbox6a"> {{ assignment.grade.name }} </label>
+          </span>
+        </div>
+        <button type="button" class="btn btn-googleplus waves-effect waves-light"
+          (click)="onOpenDialog(assignment.topic.videoLink)">
+          <i class="fas fa-video m-r-5"></i>
+        </button>
+        <button type="button" class="btn btn-googleplus waves-effect waves-light"
+          (click)="openWorksheet(assignment.topic.worksheetLink)">
+          <i class="far fa-file-pdf m-r-5"></i>
+        </button>
+        <button type="button" class="btn btn-googleplus waves-effect waves-light"
+          (click)="openQuizView(assignment.topic)">
+          <i class="far fa-question-circle m-r-5"></i>
+        </button>
+        <span class="pull-right" style="display: inline-flex">          
+        <ejs-datepicker [enabled]="false" [showClearButton]="false" [allowEdit]="false" [value]="assignment.date | date:'MM/dd/yyyy'" format='dd-MMM-yyyy' strictMode="true" 
+          name="date"></ejs-datepicker>
+         <span class="m-l-10 m-t-5 m-r-10">To</span>
+        <ejs-datepicker [value]="assignment.toDate | date:'MM/dd/yyyy'" [min]="assignment.date | date:'MM/dd/yyyy'" placeholder='Enter date' strictMode="true" #date
+          name="date" format='dd-MMM-yyyy'  [showClearButton]="false" [allowEdit]="false" (change)="onSelectDate($event, assignment)"></ejs-datepicker>
+        </span>
+      </div>
+    </div>
+  </div>
+  <ejs-dialog id="dialog" isModal="true" #Dialog (close)="dialogClose()" [visible]="false" showOnInit="false"
+    showCloseIcon="false" [content]="dialogContent">
+  </ejs-dialog>
+  <ejs-dialog id="dialog1" isModal="true" #Dialog1 [visible]="false"  showOnInit="false"
+    showCloseIcon="false" (close)="dialogClose()" [showCloseIcon]="true">
+    <ng-template #content>
+      <yoo-quiz-view [selectedTopic]="selectedTopic" *ngIf="selectedTopic.length"></yoo-quiz-view>
+    </ng-template>
+  </ejs-dialog>
+</div>

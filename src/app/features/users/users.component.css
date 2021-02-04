@@ -1,0 +1,33 @@
+/* .form-group.col-md-6 {
+ width: 300px;
+} */
+
+.e-style {
+ margin-top: 20px !important;
+}
+
+.y-date {
+ margin-left: 12px;
+}
+
+.genderLbl {
+ margin-top: -20px;
+}
+
+.e-label {
+ margin-right: 10px;
+ margin-left: -5px;
+}
+
+.px-15 {
+ padding: 0 15px;
+}
+
+.switch-label {
+ margin-top: -20px;
+}
+
+.header-less-tabs.mat-tab-group .mat-tab-header {
+ display: none !important;
+ margin-top: 20px;
+}

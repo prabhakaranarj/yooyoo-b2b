@@ -1,0 +1,122 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="pull-right" style="display: inline-flex;">
+      <ejs-dropdownlist #schoolId [ngClass]="urole !== 'SUPERADMIN' && urole !== 'YOOYOOADMIN' ? 'hidden' : ''
+    " [dataSource]="schoolData" [fields]="{ value: 'name', text: 'name' }" placeholder="School" name="schoolId"
+        (select)="onChangeSchool($event)" [(value)]="schoolValue" class="mr-10"></ejs-dropdownlist>
+      <ejs-daterangepicker class="ml-10" id="daterangepicker" #range (change)="onChangeDate($event)"
+        [value]="rangeValue">
+      </ejs-daterangepicker>
+    </div>
+  </div>
+</div>
+<div class="col-md-6">
+  <ejs-grid #grid1 [showColumnMenu]="false" [allowReordering]="false" [gridLines]="line" [allowPaging]="false"
+    [toolbar]="toolbar" [allowSorting]="false" [allowFiltering]="false" [allowExcelExport]="true"
+    [allowGrouping]="false" [dataSource]="school" (toolbarClick)="onToolbarClick($event)" class="mt-10 report">
+    <e-columns>
+      <e-column headerText="School Details">
+        <ng-template #rowTemplate let-data>
+          <tr>
+            <td class="details">
+              <table class="CardTable" cellpadding="5" cellspacing="2">
+                <colgroup>
+                  <col width="50%">
+                  <col width="50%">
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="CardHeader e-rowcell">School Name </td>
+                    <td class="e-rowcell">{{data.schoolName}} </td>
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">Owner Name</td>
+                    <td class="e-rowcell">{{data.ownerName}} </td>
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">School Code</td>
+                    <td class="e-rowcell">{{data.schoolCode}}</td>
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">Student Strength</td>
+                    <td class="e-rowcell">{{data.studentStrength}}</td>
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">Present Days</td>
+                    <td class="e-rowcell">{{data.presentDays}}</td>
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">Topics Assigned</td>
+                    <td class="e-rowcell">{{data.noOfTopicsAssigned}}</td>
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">Topic Viewed</td>
+                    <td class="e-rowcell">{{data.noOfTopicViewed}}</td>
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">Quizzes Attented</td>
+                    <td class="e-rowcell">{{data.noOfQuestionFaced}}</td>
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">Correct Answers</td>
+                    <td class="e-rowcell">{{data.noOfCorrectAnswers}}</td>
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">Topics Learnt</td>
+                    <td class="e-rowcell">{{data.noOfVideosWatched}}</td>
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">WorkSheets Practiced</td>
+                    <td class="e-rowcell">{{data.noOfWorksheetAppeared}}</td>`
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">Transport Fee</td>
+                    <td class="e-rowcell">{{data.totalTransportFee}}</td>`
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">Transport Fee Paid</td>
+                    <td class="e-rowcell">{{data.totalTransportFeePaid}}</td>`
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">Tution Fee</td>
+                    <td class="e-rowcell">{{data.totalTutionFee}}</td>`
+                  </tr>
+                  <tr>
+                    <td class="CardHeader e-rowcell">Tution Fee Paid</td>
+                    <td class="e-rowcell">{{data.totalTutionFeepaid}}</td>`
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </ng-template>
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+</div>
+<div class="col-md-6">
+  <!-- <div class="control-section yooyoo text-center mt-10"> -->
+  <ejs-chart style='display:block;' [chartArea]='chartArea' align='center' id='chartcontainer'
+    [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]="'Assignment'" [tooltip]='tooltip' height="300">
+    <e-series-collection>
+      <e-series [dataSource]='chartData' type='Bar' xName='x' yName='y' name='' [marker]='marker'> </e-series>
+    </e-series-collection>
+  </ejs-chart>
+  <ejs-accumulationchart #pie2 [legendSettings]="legendSettings" [tooltip]="tooltip" [title]="'Fees'" height="300"
+    [enableSmartLabels]="enableSmartLabels" [enableAnimation]="enableAnimation">
+    <e-accumulation-series-collection>
+      <e-accumulation-series [dataSource]="schoolFeesData" xName="x" yName="y" [startAngle]="startAngle"
+        [endAngle]="endAngle" innerRadius="30%" [dataLabel]="dataLabel">
+      </e-accumulation-series>
+    </e-accumulation-series-collection>
+  </ejs-accumulationchart>
+  <ejs-accumulationchart #pie3 [legendSettings]="legendSettings" [tooltip]="tooltip" [title]="'Attedance'" height="300"
+    [enableSmartLabels]="enableSmartLabels" [enableAnimation]="enableAnimation">
+    <e-accumulation-series-collection>
+      <e-accumulation-series [dataSource]="schoolAttedanceData" xName="x" yName="y" [startAngle]="startAngle"
+        [endAngle]="endAngle" innerRadius="30%" [dataLabel]="dataLabel">
+      </e-accumulation-series>
+    </e-accumulation-series-collection>
+  </ejs-accumulationchart>
+</div>
+<!-- </div> -->

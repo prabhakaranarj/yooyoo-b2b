@@ -1,0 +1,260 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="pull-right" style="display: inline-flex;">
+      <ejs-dropdownlist #schoolId [ngClass]="urole !== 'SUPERADMIN' && urole !== 'YOOYOOADMIN' ? 'hidden' : ''
+    " [dataSource]="schoolData" [fields]="{ value: 'name', text: 'name' }" placeholder="School" name="schoolId"
+        (select)="onChangeSchool($event)" [(value)]="schoolValue" class="mr-10"></ejs-dropdownlist>
+      <ejs-dropdownlist #filterId [dataSource]="FilterData" placeholder="Filter" (select)="onFilterType($event)"
+        [(value)]="filterValue" class="mr-10"></ejs-dropdownlist>
+      <ejs-daterangepicker class="ml-10" id="daterangepicker" #range (change)="onChangeDate($event)"
+        [value]="rangeValue">
+      </ejs-daterangepicker>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="!student.length">
+  <div class="control-section col-md-6 yooyoo">
+    <div id="sample">
+      <h4> Student Details </h4>
+      <div class="avatar">
+        <ejs-dropdownlist #grade [dataSource]="gradeData" placeholder="Class"
+          (select)="onSearch('gradeName', $event.itemData.value)" class="e-input mr-10"></ejs-dropdownlist>
+        <input #textbox (change)="onSearch('firstName', $event.target.value)" class="e-input pull-right" type="text"
+          id="textbox" placeholder="Search" title="Type in a name" />
+      </div>
+      <ejs-listview id="element" [dataSource]="users" height="400" cssClass="e-list-template" [showHeader]="false"
+        (select)='onActionComplete($event)'>
+        <ng-template #template let-data="">
+          <div class="e-list-wrapper e-list-multi-line e-list-avatar">
+            <span class="e-avatar e-avatar-circle my-circle"
+              [style.background]="data.color">{{ getShortName(data.firstName) }}</span>
+            <span class="e-list-item-header">{{ data.firstName }}</span>
+            <span class="e-list-content">{{ data.gradeName }}</span>
+          </div>
+        </ng-template>
+      </ejs-listview>
+    </div>
+    <ng-template #nodata>
+      <span>No data available!</span>
+    </ng-template>
+  </div>
+  <div class="control-section yooyoo text-center mt-10" *ngIf="filterValue === 'Attendance'">
+    <div class="control-section col-md-2 yooyoo text-center">
+      <ejs-accumulationchart #pie1 [legendSettings]="legendSettings" [tooltip]="tooltip" [title]="'L.k.G'" height="300"
+        [enableSmartLabels]="enableSmartLabels" [enableAnimation]="enableAnimation">
+        <e-accumulation-series-collection>
+          <e-accumulation-series [dataSource]="attendanceLKG" xName="x" yName="y" [startAngle]="startAngle"
+            [endAngle]="endAngle" innerRadius="30%" [dataLabel]="dataLabel">
+          </e-accumulation-series>
+        </e-accumulation-series-collection>
+      </ejs-accumulationchart>
+    </div>
+    <div class="control-section col-md-2 yooyoo text-center">
+      <ejs-accumulationchart #pie2 [legendSettings]="legendSettings" [tooltip]="tooltip" [title]="'U.K.G'" height="300"
+        [enableSmartLabels]="enableSmartLabels" [enableAnimation]="enableAnimation">
+        <e-accumulation-series-collection>
+          <e-accumulation-series [dataSource]="attendanceUKG" xName="x" yName="y" [startAngle]="startAngle"
+            [endAngle]="endAngle" innerRadius="30%" [dataLabel]="dataLabel">
+          </e-accumulation-series>
+        </e-accumulation-series-collection>
+      </ejs-accumulationchart>
+    </div>
+    <div class="control-section col-md-2 yooyoo text-center">
+      <ejs-accumulationchart #pie3 [legendSettings]="legendSettings" [tooltip]="tooltip" [title]="'NURSERY'"
+        height="300" [enableSmartLabels]="enableSmartLabels" [enableAnimation]="enableAnimation">
+        <e-accumulation-series-collection>
+          <e-accumulation-series [dataSource]="attendanceNursery" xName="x" yName="y" [startAngle]="startAngle"
+            [endAngle]="endAngle" innerRadius="30%" [dataLabel]="dataLabel">
+          </e-accumulation-series>
+        </e-accumulation-series-collection>
+      </ejs-accumulationchart>
+    </div>
+    <div class="control-section col-md-6">
+      <table class="table">
+        <tr>
+          <th> Grade Name </th>
+          <th> Total No of Days </th>
+          <th> Total No of Present Days</th>
+        </tr>
+        <tr *ngFor="let data of attendanceData">
+          <td>{{ data.gradeName }}</td>
+          <td>{{ data.totalAttendance }}</td>
+          <td>{{ data.totalPresentDays }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="control-section col-md-6 yooyoo text-center mt-10" *ngIf="filterValue === 'Fees'">
+    <ejs-chart style='display:block;' align='left' id='chartcontainer' [primaryXAxis]='primaryXAxis'
+      [primaryYAxis]='primaryYAxis' [title]="'Fees Report'" [palettes]='palette' [tooltip]='tooltip'>
+      <e-series-collection>
+        <e-series [dataSource]='feesdata[0]' type='Column' xName='x' yName='y' name='Transport Fee' width=4
+          [marker]='marker'> </e-series>
+        <e-series [dataSource]='feesdata[1]' type='Column' xName='x' yName='y' name='Transport Fee Paid' width=4
+          [marker]='marker'>
+        </e-series>
+        <e-series [dataSource]='feesdata[2]' type='Column' xName='x' yName='y' name='Tution Fee' width=4
+          [marker]='marker'>
+        </e-series>
+        <e-series [dataSource]='feesdata[3]' type='Column' xName='x' yName='y' name='Tution Fee Paid' width=4
+          [marker]='marker'>
+        </e-series>
+      </e-series-collection>
+    </ejs-chart>
+    <div class="">
+      <table class="table">
+        <tr>
+          <th> Grade Name </th>
+          <th> Transport Fee </th>
+          <th> Transport Fee Paid </th>
+          <th> Tution Fee </th>
+          <th> Tution Fee Paid </th>
+        </tr>
+        <tr *ngFor="let data of feesReport">
+          <td>{{ data.gradeName }}</td>
+          <td>{{ data.totalTransportFee }}</td>
+          <td>{{ data.totalTransportFeePaid }}</td>
+          <td>{{ data.totalTutionFee }}</td>
+          <td>{{ data.totalTutionFeepaid }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="control-section col-md-6 yooyoo text-center mt-10" *ngIf="filterValue === 'Assignment'">
+    <ejs-chart style='display:block;' [width]='width' align='center' id='chartcontainer' [primaryXAxis]='primaryXAxis'
+      [primaryYAxis]='primaryYAxis' [title]="'Assignment Report'" [tooltip]='tooltip'>
+      <e-series-collection>
+        <e-series [dataSource]='assignmentData[0]' type='Column' xName='x' yName='y' name='Correct Answers'
+          width=2 [marker]='marker'> </e-series>
+        <e-series [dataSource]='assignmentData[1]' type='Column' xName='x' yName='y' name='Quizzes Attented'
+          width=2 [marker]='marker'>
+        </e-series>
+        <e-series [dataSource]='assignmentData[2]' type='Column' xName='x' yName='y' name='Topics Learnt' width=2
+          [marker]='marker'>
+        </e-series>
+        <e-series [dataSource]='assignmentData[3]' type='Column' xName='x' yName='y' name='WorkSheets Practiced'
+          width=2 [marker]='marker'>
+        </e-series>
+      </e-series-collection>
+    </ejs-chart>
+    <div class="">
+      <table class="table">
+        <tr>
+          <th> Grade Name </th>
+          <th> Correct Answers </th>
+          <th> Quizzes Attented </th>
+          <th> Topics Learnt </th>
+          <th> WorkSheets Practiced </th>
+        </tr>
+        <tr *ngFor="let data of assignmentReport">
+          <td>{{ data.gradeName }}</td>
+          <td>{{ data.noOfCorrectAnswers }}</td>
+          <td>{{ data.noOfQuestionsAppeared }}</td>
+          <td>{{ data.noOfVideosViewed }}</td>
+          <td>{{ data.noOfWorkSheetAppeared }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="student?.length">
+  <div class="col-md-4">
+    <button class="btn btn-default mt-10" (click)="student = []">Back</button>
+    <ejs-grid #grid [showColumnMenu]="false" [allowReordering]="false" [gridLines]="line" [allowPaging]="false"
+      [allowSorting]="false" [allowFiltering]="false" [allowExcelExport]="true" [allowGrouping]="false"
+      [dataSource]="student" class="mt-10 report">
+      <e-columns>
+        <e-column headerText="Student Details">
+          <ng-template #rowTemplate let-data>
+            <tr>
+              <td class="details">
+                <table class="CardTable" cellpadding="5" cellspacing="2">
+                  <colgroup>
+                    <col width="50%">
+                    <col width="50%">
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <td class="CardHeader e-rowcell">Student Name </td>
+                      <td class="e-rowcell">{{data.firstName}} </td>
+                    </tr>
+                    <tr>
+                      <td class="CardHeader e-rowcell">School Name</td>
+                      <td class="e-rowcell">{{data.schoolName}}</td>
+                    </tr>
+                    <tr>
+                      <td class="CardHeader e-rowcell">Grade Name</td>
+                      <td class="e-rowcell">{{data.gradeName}}</td>
+                    </tr>
+                    <tr>
+                      <td class="CardHeader e-rowcell">Attendance Taken Days</td>
+                      <td class="e-rowcell">{{data.attendanceTakenDays}}</td>
+                    </tr>
+                    <tr>
+                      <td class="CardHeader e-rowcell">Present Days</td>
+                      <td class="e-rowcell">{{data.presentDays}}</td>
+                    </tr>
+                    <tr>
+                      <td class="CardHeader e-rowcell">Tution Fee</td>
+                      <td class="e-rowcell">{{data.tutionFee}}</td>
+                    </tr>
+                    <tr>
+                      <td class="CardHeader e-rowcell">Tution Fee Paid</td>
+                      <td class="e-rowcell">{{data.totalTutionFeePaid}}</td>
+                    </tr>
+                    <tr>
+                      <td class="CardHeader e-rowcell">Transportation Fee</td>
+                      <td class="e-rowcell">{{data.transportationFee}}</td>
+                    </tr>
+                    <tr>
+                      <td class="CardHeader e-rowcell">Transportation Fee Paid</td>
+                      <td class="e-rowcell">{{data.totalTransportFeePaid}}</td>
+                    </tr>
+                    <tr>
+                      <td class="CardHeader e-rowcell">Quizzes Attented</td>
+                      <td class="e-rowcell">{{data.noOfQuestionsFaced}}</td>
+                    </tr>
+                    <tr>
+                      <td class="CardHeader e-rowcell">Topics Learnt</td>
+                      <td class="e-rowcell">{{data.noOfVideoWatched}}</td>
+                    </tr>
+                    <tr>
+                      <td class="CardHeader e-rowcell">WorkSheets Practiced</td>
+                      <td class="e-rowcell">{{data.noOfWorkSheetAppeared}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+  </div>
+  <div class="control-section yooyoo text-center mt-10">
+    <ejs-accumulationchart class="col-md-4" #pie1 [legendSettings]="legendSettings" [tooltip]="tooltip" [title]="'Assignment'"
+      height="300" [enableSmartLabels]="enableSmartLabels" [enableAnimation]="enableAnimation">
+      <e-accumulation-series-collection>
+        <e-accumulation-series [dataSource]="studentAssignmentData" xName="x" yName="y" [startAngle]="startAngle"
+          [endAngle]="endAngle" innerRadius="30%" [dataLabel]="dataLabel">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+    <ejs-accumulationchart #pie1 class="col-md-4" [legendSettings]="legendSettings" [tooltip]="tooltip" [title]="'Fees'"
+      height="300" [enableSmartLabels]="enableSmartLabels" [enableAnimation]="enableAnimation">
+      <e-accumulation-series-collection>
+        <e-accumulation-series [dataSource]="studentFeesData" xName="x" yName="y" [startAngle]="startAngle"
+          [endAngle]="endAngle" innerRadius="30%" [dataLabel]="dataLabel">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+    <ejs-accumulationchart #pie1 class="col-md-4" [legendSettings]="legendSettings" [tooltip]="tooltip" [title]="'Attedance'"
+      height="300" [enableSmartLabels]="enableSmartLabels" [enableAnimation]="enableAnimation">
+      <e-accumulation-series-collection>
+        <e-accumulation-series [dataSource]="studentAttedanceData" xName="x" yName="y" [startAngle]="startAngle"
+          [endAngle]="endAngle" innerRadius="30%" [dataLabel]="dataLabel">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  </div>
+</div>

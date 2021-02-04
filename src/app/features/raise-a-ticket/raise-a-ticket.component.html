@@ -1,0 +1,65 @@
+<div class="col-md-12 mt-40">
+  <div class="control-section">
+    <ejs-grid #grid *ngIf="showLoader" [showColumnMenu]="false" [allowReordering]="false" [gridLines]="line"
+      [allowPaging]="true" [allowSorting]="true" [allowFiltering]="true" [allowExcelExport]="true"
+      [allowGrouping]="false" [searchSettings]="searchSettings" [editSettings]="editSettings"
+      [filterSettings]="filterOptions" allowTextWrap='true' [textWrapSettings]='wrapSettings' [pageSettings]="pageSettings" [toolbar]="toolbar" [dataSource]="tickets"
+      (toolbarClick)="onToolbarClick($event)" (actionBegin)="actionBegin($event)"
+      (actionComplete)="actionComplete($event)">
+      <e-columns>
+        <e-column field="ticketId" headerText="Ticket ID" textAlign="left" width="150" isPrimaryKey="true"></e-column>
+        <e-column field="subject" headerText="Subject" textAlign="left" width="200"></e-column>
+        <e-column field="message" headerText="Message" textAlign="left" width="300"></e-column>
+        <e-column field="comments" headerText="Comments" textAlign="left" width="300"></e-column>
+        <e-column field="status" headerText="Status" textAlign="left" width="120"></e-column>
+        <e-column field="created_at" headerText="Created Date" textAlign="left" width="150"></e-column>
+        <e-column field="updatedd_at" headerText="Updated Date" textAlign="left" width="150"></e-column>
+      </e-columns>
+      <ng-template #editSettingsTemplate let-data>
+        <div ngForm #ticketForm="ngForm">
+          <div class="row">
+            <div class="form-group col-md-12">
+              <div class="e-float-input e-control-wrapper">
+                <input class="e-input e-field" [(ngModel)]="ticketData['subject']" #subject required name="subject"
+                  id="subject" type="text" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
+                <span class="e-float-line"></span>
+                <label class="e-float-text e-label-top" for="subject">Subject</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12">
+              <mat-form-field>
+                <textarea matInput [(ngModel)]="ticketData['message']" placeholder="Message" required #message required
+                  name="message" id="message" type="text"></textarea>
+              </mat-form-field>
+           
+            </div>
+          </div>
+          <div class="row" *ngIf="!data.isAdd">
+            <div class="form-group col-md-12">
+              <mat-form-field>
+                <textarea matInput [(ngModel)]="ticketData['comments']" placeholder="Comments" required #comments required name="comments"
+                  id="comments" type="text"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row" *ngIf="!data.isAdd">
+            <div class="form-group col-md-12">
+              <ejs-dropdownlist #resolution [dataSource]="statusData" [(ngModel)]="ticketData['status']"
+                [fields]="statusFields" placeholder="Status" floatLabelType="Always" name="resolution" required>
+              </ejs-dropdownlist>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="e-control-wrapper pull-right">
+              <button type="submit" [disabled]="ticketForm.invalid" class="e-control e-btn e-primary e-flat"
+                (click)="onSubmit()"> Save </button>
+              <button type="button" class="e-control e-btn e-flat" (click)="cancel()"> Cancel </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ejs-grid>
+  </div>
+</div>

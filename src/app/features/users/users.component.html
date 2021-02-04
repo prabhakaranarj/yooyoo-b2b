@@ -1,0 +1,329 @@
+<mat-tab-group [ngClass]="
+    urole !== 'SUPERADMIN' && urole !== 'YOOYOOADMIN' ? 'header-less-tabs' : ''
+  ">
+  <mat-tab>
+    <ng-template mat-tab-label>App Users</ng-template>
+    <div style="margin-top:5px;" [ngClass]="
+      urole !== 'SUPERADMIN' && urole !== 'YOOYOOADMIN' ? 'hidden' : ''
+    ">
+      <ejs-dropdownlist width=300 #schoolId [dataSource]="schoolData" [fields]="{ value: 'id', text: 'name' }"
+        placeholder="School" name="schoolId" (select)="onChangeSchool($event)"></ejs-dropdownlist>
+    </div>
+    <div class="control-section yooyoo">
+      <ejs-grid #grid *ngIf="showLoader" [showColumnMenu]="false" [allowReordering]="false" [gridLines]="line"
+        [allowPaging]="true" [allowSorting]="true" [allowFiltering]="true" [allowExcelExport]="true"
+        [allowGrouping]="false" [searchSettings]="searchSettings" [editSettings]="editSettings"
+        [selectionSettings]='selectionOptions' [filterSettings]="filterOptions" [pageSettings]="pageSettings"
+        [toolbar]="toolbar" [dataSource]="users" (toolbarClick)="onToolbarClick($event)"
+        (actionBegin)="actionBegin($event)" (actionComplete)="actionComplete($event)"
+        (rowDataBound)="rowDataBound($event)" height=350>
+        <e-columns>
+          <e-column field="status" headerText="STATUS" width="150">
+            <ng-template #template let-data>
+              <div *ngIf="data.status === 'Active'; else login" class="statustemp e-activecolor">
+                <span class="statustxt e-activecolor">Active</span>
+              </div>
+              <ng-template #login>
+                <div class="statustemp e-inactivecolor">
+                  <span class="statustxt e-inactivecolor">InActive</span>
+                </div>
+              </ng-template>
+            </ng-template>
+          </e-column>
+          <e-column field="firstName" headerText="STUDENT NAME" [isPrimaryKey]="true" [filter]='filter' textAlign="left" width="250">
+          </e-column>
+          <e-column field="gradeName" headerText="CLASS" [filter]='filter' textAlign="left" width="150"></e-column>
+          <e-column field="dob" headerText="DOB" [filter]='filter' textAlign="left" width="150"></e-column>
+          <e-column field="gender" headerText="GENDER" [filter]='filter' textAlign="left" width="120"></e-column>
+          <e-column field="fatherName" headerText="FATHER'S NAME" [filter]='filter' textAlign="left" width="250"></e-column>
+          <e-column field="motherName" headerText="MOTHER'S NAME" [filter]='filter' textAlign="left" width="250"></e-column>
+          <e-column field="parentMobile1" headerText="PRIMARY MOBILE" [filter]='filter' textAlign="left" width="250"></e-column>
+          <e-column field="parentMobile2" headerText="ALTERNATE MOBILE" [filter]='filter' textAlign="left" width="250"></e-column>
+          <e-column field="primaryEmail" headerText="PRIMARY EMAIL" [filter]='filter' textAlign="left" width="250"></e-column>
+          <e-column field="secondaryEmail" headerText="ALTERNATE EMAIL" [filter]='filter' textAlign="left" width="250"></e-column>
+          <e-column field="fatherProfession" headerText="FATHER PROFESSION" [filter]='filter' textAlign="left" width="150"></e-column>
+          <e-column field="motherProfession" headerText="MOTHER PROFESSION" [filter]='filter' textAlign="left" width="150"></e-column>
+          <e-column field="address" headerText="ADDRESS" [filter]='filter' textAlign="left" width="150"></e-column>
+          <e-column field="city" headerText="CITY" [filter]='filter' textAlign="left" width="150"></e-column>
+          <e-column field="state" headerText="STATE" [filter]='filter' textAlign="left" width="150"></e-column>
+          <e-column field="pinCode" headerText="PINCODE" [filter]='filter' textAlign="left" width="150"></e-column>
+        </e-columns>
+        <ng-template #editSettingsTemplate let-data>
+          <div ngForm #userForm="ngForm">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <div class="e-float-input e-control-wrapper">
+                  <input class="e-input e-field" [(ngModel)]="userData.firstName" #firstName required name="firstName"
+                    id="firstName" type="text" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)"
+                    (keydown.enter)="preventDefault($event)" autocomplete="off" />
+                  <span class="e-float-line"></span>
+                  <label class="e-float-text e-label-top" for="firstName">Student Name</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="e-control-wrapper">
+                  <ejs-datepicker cssClass="e-style" strictMode="true" [max]="maxDate" [(ngModel)]="userData.dob" #dob
+                    name="dob" required (keydown.enter)="preventDefault($event)" autocomplete="off" ></ejs-datepicker>
+                  <span class="e-float-line"></span>
+                  <label class="e-float-text e-label-top y-date" for="dob">Date of Birth</label>
+                  <div class="e-tooltip-wrap e-control e-popup e-griderror" *ngIf="
+                      userForm.form.controls.dob?.touched &&
+                      !userForm.form.controls.dob?.valid
+                    ">
+                    <div class="e-tip-content">
+                      <label class="e-error" for="dob">This field is invalid.</label>
+                    </div>
+                    <div class="e-arrow-tip e-tip-top">
+                      <div class="e-arrow-tip-outer e-tip-top"></div>
+                      <div class="e-arrow-tip-inner e-tip-top"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="e-float-input e-control-wrapper">
+                  <ejs-radiobutton label="Male" value="Male" cssClass="e-style" #gender [(ngModel)]="userData.gender"
+                    name="gender" required></ejs-radiobutton>
+                  <ejs-radiobutton label="Female" value="Female" cssClass="e-style" #gender
+                    [(ngModel)]="userData.gender" name="gender" required></ejs-radiobutton>
+                  <ejs-radiobutton label="Others" value="Others" cssClass="e-style" #gender
+                    [(ngModel)]="userData.gender" name="gender" required></ejs-radiobutton>
+                  <span class="e-float-line"></span>
+                  <label class="e-float-text e-label-top genderLbl" for="gender">Gender</label>
+                </div>
+              </div>
+              <div class="row px-15">
+                <div class="form-group col-md-4">
+                  <div class="e-control-wrapper">
+                    <div class="e-float-input e-control-wrapper">
+                      <input class="e-input e-field hidden" [ngModel]="
+                          userData.gradeName === 'L.K.G'
+                            ? 2
+                            : userData.gradeName === 'U.K.G'
+                            ? 3
+                            : userData.gradeName === 'NURSERY'
+                            ? 1
+                            : ''
+                        " name="gradeId" #gradeId />
+                      <ejs-radiobutton label="NURSERY" value="NURSERY" cssClass="e-style" #gradeName
+                        [(ngModel)]="userData.gradeName" name="gradeName" required [attr.disabled]="!data.isAdd ? '' : null"
+                        (keydown.enter)="preventDefault($event)"></ejs-radiobutton>
+                      <ejs-radiobutton label="L.K.G" value="L.K.G" cssClass="e-style" #gradeName
+                        [(ngModel)]="userData.gradeName" name="gradeName" required [attr.disabled]="!data.isAdd ? '' : null"
+                        (keydown.enter)="preventDefault($event)"></ejs-radiobutton>
+                      <ejs-radiobutton label="U.K.G" value="U.K.G" cssClass="e-style" #gradeName
+                        [(ngModel)]="userData.gradeName" name="gradeName" required [attr.disabled]="!data.isAdd ? '' : null"
+                        (keydown.enter)="preventDefault($event)"></ejs-radiobutton>
+                      <span class="e-float-line"></span>
+                      <label class="e-float-text e-label-top" for="gradeId">Grade</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-md-4">
+                  <div class="e-float-input e-control-wrapper">
+                    <input class="e-input e-field" [(ngModel)]="userData.fatherName" #fatherName name="fatherName"
+                      id="fatherName" required type="text" (focus)="focusIn($event.target)"
+                      (blur)="focusOut($event.target)" (keydown.enter)="preventDefault($event)" autocomplete="off" />
+                    <span class="e-float-line"></span>
+                    <label class="e-float-text e-label-top" for="fatherName">Father's Name</label>
+                  </div>
+                </div>
+                <div class="form-group col-md-4">
+                  <div class="e-float-input e-control-wrapper">
+                    <input class="e-input e-field" [(ngModel)]="userData.motherName" #motherName name="motherName"
+                      id="motherName" required type="text" (focus)="focusIn($event.target)"
+                      (blur)="focusOut($event.target)" (keydown.enter)="preventDefault($event)" autocomplete="off" />
+                    <span class="e-float-line"></span>
+                    <label class="e-float-text e-label-top" for="motherName">Mother's Name</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row px-15">
+                <div class="form-group col-md-4">
+                  <div class="e-float-input e-control-wrapper">
+                    <input class="e-input e-field" [(ngModel)]="userData.fatherProfession" #fatherProfession
+                      name="fatherProfession" id="fatherProfession" required type="text"
+                      (focus)="focusIn($event.target)" (blur)="focusOut($event.target)"
+                      (keydown.enter)="preventDefault($event)" autocomplete="off" />
+                    <span class="e-float-line"></span>
+                    <label class="e-float-text e-label-top" for="fatherProfession">Father's Profession</label>
+                  </div>
+                </div>
+                <div class="form-group col-md-4">
+                  <div class="e-float-input e-control-wrapper">
+                    <input class="e-input e-field" [(ngModel)]="userData.motherProfession" #motherProfession
+                      name="motherProfession" id="motherProfession" required type="text"
+                      (focus)="focusIn($event.target)" (blur)="focusOut($event.target)"
+                      (keydown.enter)="preventDefault($event)" autocomplete="off" />
+                    <span class="e-float-line"></span>
+                    <label class="e-float-text e-label-top" for="motherProfession">Mother's Profession</label>
+                  </div>
+                </div>
+                <div class="form-group col-md-4">
+                  <div class="e-float-input e-control-wrapper">
+                    <input class="e-input e-field" [(ngModel)]="userData.primaryEmail" #primaryEmail name="primaryEmail"
+                      id="primaryEmail" type="email" required (focus)="focusIn($event.target)"  [attr.disabled]="!data.isAdd ? '' : null"
+                      (blur)="focusOut($event.target)" (keydown.enter)="preventDefault($event)" autocomplete="off" />
+                    <span class="e-float-line"></span>
+                    <label class="e-float-text e-label-top" for="primaryEmail">Primary Email</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="e-float-input e-control-wrapper">
+                  <input class="e-input e-field" [(ngModel)]="userData.secondaryEmail" #secondaryEmail
+                    name="secondaryEmail" id="secondaryEmail" type="email" required (focus)="focusIn($event.target)"
+                    (blur)="focusOut($event.target)" (keydown.enter)="preventDefault($event)" autocomplete="off" />
+                  <span class="e-float-line"></span>
+                  <label class="e-float-text e-label-top" for="secondaryEmail">Alternate Email</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="e-control-wrapper">
+                  <ejs-maskedtextbox mask="000-000-0000" [(ngModel)]="userData.parentMobile1" #parentMobile1 required
+                    name="parentMobile1" minlength="10" placeholder="Primary Mobile" floatLabelType="Always"
+                    (keydown.enter)="preventDefault($event)" autocomplete="off">
+                  </ejs-maskedtextbox>
+                  <div class="e-tooltip-wrap e-control e-popup e-griderror" *ngIf="
+                      userForm.form.controls.parentMobile1?.touched &&
+                      !userForm.form.controls.parentMobile1?.valid
+                    ">
+                    <div class="e-tip-content">
+                      <label class="e-error" for="parentMobile1">This field is required.</label>
+                    </div>
+                    <div class="e-arrow-tip e-tip-top">
+                      <div class="e-arrow-tip-outer e-tip-top"></div>
+                      <div class="e-arrow-tip-inner e-tip-top"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="e-control-wrapper">
+                  <ejs-maskedtextbox mask="000-000-0000" [(ngModel)]="userData.parentMobile2" #parentMobile2 required
+                    name="parentMobile2" minlength="10" placeholder="Alternate Mobile" floatLabelType="Always"
+                    (keydown.enter)="preventDefault($event)" autocomplete="off">
+                  </ejs-maskedtextbox>
+                  <div class="e-tooltip-wrap e-control e-popup e-griderror" *ngIf="
+                      userForm.form.controls.parentMobile2?.touched &&
+                      !userForm.form.controls.parentMobile2?.valid
+                    ">
+                    <div class="e-tip-content">
+                      <label class="e-error" for="parentMobile2">This field is required.</label>
+                    </div>
+                    <div class="e-arrow-tip e-tip-top">
+                      <div class="e-arrow-tip-outer e-tip-top"></div>
+                      <div class="e-arrow-tip-inner e-tip-top"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-4 clearfix">
+                <div class="e-float-input e-control-wrapper">
+                  <input class="e-input e-field" [(ngModel)]="userData.address" #address name="address" id="address"
+                    type="text" required (focus)="focusIn($event.target)" (blur)="focusOut($event.target)"
+                    (keydown.enter)="preventDefault($event)" autocomplete="off" />
+                  <span class="e-float-line"></span>
+                  <label class="e-float-text e-label-top" for="address">Address</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="e-float-input e-control-wrapper">
+                  <input class="e-input e-field" [(ngModel)]="userData.city" #city name="city" id="city" type="text"
+                    required (focus)="focusIn($event.target)" (blur)="focusOut($event.target)"
+                    (keydown.enter)="preventDefault($event)" autocomplete="off" />
+                  <span class="e-float-line"></span>
+                  <label class="e-float-text e-label-top" for="city">City</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="e-float-input e-control-wrapper">
+                  <input class="e-input e-field" required [(ngModel)]="userData.state" #state name="state" id="state"
+                    type="text" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)"
+                    (keydown.enter)="preventDefault($event)" autocomplete="off" />
+                  <span class="e-float-line"></span>
+                  <label class="e-float-text e-label-top" for="state">State</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="e-control-wrapper">
+                  <ejs-maskedtextbox mask="000000" minlength="6" [(ngModel)]="userData.pinCode" #pinCode required
+                    name="pinCode" placeholder="Pin Code" floatLabelType="Always"
+                    (keydown.enter)="preventDefault($event)" autocomplete="off"></ejs-maskedtextbox>
+                  <div class="e-tooltip-wrap e-control e-popup e-griderror" *ngIf="
+                      userForm.form.controls.pinCode?.touched &&
+                      !userForm.form.controls.pinCode?.valid
+                    ">
+                    <div class="e-tip-content">
+                      <label class="e-error" for="pinCode">This field is required.</label>
+                    </div>
+                    <div class="e-arrow-tip e-tip-top">
+                      <div class="e-arrow-tip-outer e-tip-top"></div>
+                      <div class="e-arrow-tip-inner e-tip-top"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="e-float-input e-control-wrapper">
+                  <input class="e-input e-field" [(ngModel)]="userData.password" #password required name="password"
+                    type="password" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)"
+                    (keydown.enter)="preventDefault($event)" autocomplete="off" />
+                  <span class="e-float-line"></span>
+                  <label class="e-float-text e-label-top" for="password">Password</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="e-float-input e-control-wrappe">
+                  <ejs-switch [ngModel]="
+                      userData.deleted === 1
+                        ? true
+                        : userData.deleted === 0
+                        ? false
+                        : null
+                    " (ngModelChange)="userData.deleted = $event ? 1 : 0" #deleted name="deleted" id="deleted"
+                    (keydown.enter)="preventDefault($event)" autocomplete="off">
+                  </ejs-switch>
+                  <span class="e-float-line"></span>
+                  <label class="e-float-text e-label-top switch-label" for="deleted"> Active/InActive </label>
+                </div>
+              </div>
+              
+            </div>
+            <div class="col-md-12">
+              <div class="e-control-wrapper pull-right">
+                <button type="button" [disabled]="userForm.invalid" class="e-control e-btn e-primary e-flat"
+                  (click)="onSubmit()"> Save </button>
+                <button type="button" class="e-control e-btn e-flat" (click)="cancel()"> Cancel </button>
+              </div>
+            </div>
+          </div>
+          <br />
+        </ng-template>
+      </ejs-grid>
+      <ejs-dialog #Dialog [visible]="false" [position]="position" [header]="header" [showCloseIcon]="showCloseIcon"
+        [width]="width">
+        <ng-template #content>
+          <form id="template_driven" #importForm="ngForm" novalidate>
+            <div class="selected-files">
+              <div class="form-group uploader-section">
+                <input type="file" id="fileupload" name="fileupload" (change)="onFileChange($event)"
+                  placeholder="Upload file" accept=".csv" />
+              </div>
+            </div>
+            <div class="form-group" style="padding-top: 11px;">
+              <div class="submitBtn">
+                <button class="submit-btn e-btn" id="submit-btn" [disabled]="importForm.invalid" type="reset"
+                  (click)="uploadSubmit()"> Submit </button>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+      </ejs-dialog>
+    </div>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label> Admin User </ng-template>
+    <yoo-cred-manager></yoo-cred-manager>
+  </mat-tab>
+</mat-tab-group>

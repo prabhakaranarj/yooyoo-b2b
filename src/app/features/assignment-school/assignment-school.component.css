@@ -1,0 +1,168 @@
+/* .form-group.col-md-6 {
+ width: 300px;
+} */
+.hidden{
+  display: none;
+}
+.e-style {
+ margin-top: 20px !important;
+}
+
+.y-date {
+ margin-left: 12px;
+}
+
+.genderLbl {
+ margin-top: -20px;
+}
+
+.e-label {
+ margin-right: 10px;
+ margin-left: -5px;
+}
+
+.px-15 {
+ padding: 0 15px;
+}
+
+.switch-label {
+ margin-top: -20px;
+}
+
+.clearfix {
+ clear: both;
+}
+
+.btn-googleplus {
+ color: #ffffff !important;
+ background-color: #188ae2 !important;
+}
+
+.waves-effect {
+ position: relative;
+ cursor: pointer;
+ display: inline-block;
+ overflow: hidden;
+ -webkit-user-select: none;
+ -moz-user-select: none;
+ -ms-user-select: none;
+ user-select: none;
+ -webkit-tap-highlight-color: transparent;
+ vertical-align: middle;
+ z-index: 0;
+ will-change: opacity, transform;
+ -webkit-transition: all 0.3s ease-out;
+ -moz-transition: all 0.3s ease-out;
+ -o-transition: all 0.3s ease-out;
+ -ms-transition: all 0.3s ease-out;
+ transition: all 0.3s ease-out;
+}
+
+button {
+ /* color: white; */
+ -webkit-tap-highlight-color: transparent;
+ background-color: #fafafa;
+ border-color: transparent;
+ margin-right: 2px;
+ color: rgba(0, 0, 0, 0.87);
+ transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+ box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* =============
+   Calendar
+============= */
+
+.fc-button {
+  background: #f1f1f1;
+  border: none;
+  color: #797979;
+  text-transform: capitalize;
+  box-shadow: none !important;
+  border-radius: 3px !important;
+  margin: 0 3px !important;
+  padding: 6px 12px !important;
+  height: auto !important;
+}
+.fc-text-arrow {
+  font-family: inherit;
+  font-size: 16px;
+}
+.fc-state-hover {
+  background: #f3f3f3;
+}
+.fc-state-highlight {
+  background: #f0f0f0;
+}
+.fc-state-down,
+.fc-state-active,
+.fc-state-disabled {
+  background-color:#F06292 !important;
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+.fc-icon-left-single-arrow::after {
+  content: "\02039";
+  font-weight: 700;
+  font-size: 200%;
+  top: -7%;
+}
+.fc-icon::after {
+  position: relative;
+}
+.fc button .fc-icon {
+  position: relative;
+  top: -.05em;
+  margin: 0 .2em;
+  vertical-align: middle;
+}
+.fc-icon {
+  height: 1em;
+  line-height: 1em;
+  overflow: hidden;
+  font-family: "Courier New",Courier,monospace;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.fc-icon-right-single-arrow::after {
+  content: "\0203A";
+  font-weight: 700;
+  font-size: 200%;
+  top: -7%;
+}
+.fc-icon::after {
+  position: relative;
+}
+.fc .fc-toolbar > * > * {
+  float: left;
+}
+.fc-toolbar button {
+  position: relative;
+}
+.fc-toolbar .fc-center {
+  display: inline-block;
+}
+.fc-toolbar .fc-right {
+  float: right;
+}
+.fc-button-group, .fc-icon {
+  display: inline-block;
+}
+.fc-toolbar .fc-left {
+  float: left;
+}
+.fc .fc-toolbar > * > :first-child {
+  margin-left: 0;
+}
+.fc th, .fc-basic-view .fc-week-number, .fc-icon, .fc-toolbar {
+  text-align: center;
+}
+.fc-toolbar h2 {
+  font-size: 18px;
+  font-weight: 550;
+  text-transform:capitalize;
+  color: #313a46;
+  margin-top: 0;
+}

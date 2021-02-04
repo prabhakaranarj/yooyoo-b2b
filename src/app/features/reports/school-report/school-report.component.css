@@ -1,0 +1,70 @@
+.my-circle {
+ content: attr(title);
+ display: inline-block;
+ font-size: 1em;
+ width: 2.5em;
+ height: 2.5em;
+ line-height: 2.5em;
+ text-align: center;
+ border-radius: 50%;
+ vertical-align: middle;
+ margin-right: 1em;
+ color: white;
+}
+
+.avatar {
+ display: inline-flex;
+}
+
+#element .e-list-item {
+ width: 298px;
+ float: left;
+ margin: auto;
+ border: 1px solid #dddddd;
+ border-radius: 3px;
+}
+
+#list {
+ box-shadow: 0 1px 4px #ddd;
+ border-bottom: 1px solid #ddd;
+}
+
+#sample {
+ height: 220px;
+ margin: 0 auto;
+ display: table;
+}
+
+#textbox {
+ margin-right: 15px;
+ width: 246px;
+ float: right;
+}
+
+.ml-10 {
+ margin-left: 10px;
+}
+
+.mt-10 {
+ margin-top: 10px;
+}
+
+.mr-10 {
+ margin-right: 10px;
+}
+
+.details>table {
+ width: 101%;
+}
+
+.CardHeader {
+ font-weight: bolder;
+}
+
+.report .e-rowcell {
+ border-width: 1px 1px 1px 1px !important;
+}
+
+.report .e-content{
+  overflow: hidden !important;
+}

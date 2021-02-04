@@ -1,0 +1,240 @@
+<div class="control-section yooyoo">
+  <ejs-grid #grid *ngIf="showLoader" [showColumnMenu]="false" [allowReordering]="false" [gridLines]="line"
+    [allowPaging]="true" [allowSorting]="true" [allowFiltering]="true" [allowExcelExport]="true"
+    [allowGrouping]="false" [searchSettings]="searchSettings" [editSettings]="editSettings"
+    [selectionSettings]='selectionOpttions' [filterSettings]="filterOptions" [pageSettings]="pageSettings"
+    [toolbar]="toolbar" [dataSource]="schools" (toolbarClick)="onToolbarClick($event)"
+    (actionBegin)="actionBegin($event)" (actionComplete)="actionComplete($event)" (rowDataBound)="rowDataBound($event)">
+    <e-columns>
+      <e-column field="status" headerText="STATUS" width="150">
+        <ng-template #template let-data>
+          <div *ngIf="data.status === 'Active'; else login" class="statustemp e-activecolor">
+            <span class="statustxt e-activecolor">Active</span>
+          </div>
+          <ng-template #login>
+            <div class="statustemp e-inactivecolor">
+              <span class="statustxt e-inactivecolor">InActive</span>
+            </div>
+          </ng-template>
+        </ng-template>
+      </e-column>
+      <e-column field="name" headerText="SCHOOL NAME" textAlign="left" width="200" [isPrimaryKey]="true"></e-column>
+      <e-column field="code" headerText="SCHOOL CODE" textAlign="left" width="200"></e-column>
+      <e-column field="ownerName" headerText="OWNER NAME" textAlign="left" width="200"></e-column>
+      <e-column field="ownerMobile" headerText="MOBILE" textAlign="left" width="200"></e-column>
+      <e-column field="emailId" headerText="EMAIL" textAlign="left" width="200"></e-column>
+      <e-column field="address" headerText="ADDRESS" textAlign="left" width="200"></e-column>
+    </e-columns>
+    <ng-template #editSettingsTemplate let-data>
+      <div ngForm #schoolForm="ngForm">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <div class="e-float-input e-control-wrapper">
+              <input class="e-input e-field" [(ngModel)]="schoolData.name" #string required name="name" id="name"
+                type="text" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)"
+                (keydown.enter)="preventDefault($event)" autocomplete="off" />
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top" for="name">School Name</label>
+            </div>
+          </div>
+          <!-- <div class="form-group col-md-4">
+            <div class="e-control-wrapper">
+              <ejs-numerictextbox
+                id="code"
+                format="N0"
+                [value]="schoolData.code"
+                [(ngModel)]="schoolData.code"
+                #code
+                name="code"
+                placeholder="School Code"
+                floatLabelType="Always"
+                required
+              ></ejs-numerictextbox>
+
+              <div
+                class="e-tooltip-wrap e-control e-popup e-griderror"
+                *ngIf="
+                  schoolForm.form.controls.code?.touched && !schoolForm.form.controls.code?.valid"              >
+                <div class="e-tip-content">
+                  <label class="e-error" for="code"
+                    >This field is required.</label
+                  >
+                </div>
+                <div class="e-arrow-tip e-tip-top">
+                  <div class="e-arrow-tip-outer e-tip-top"></div>
+                  <div class="e-arrow-tip-inner e-tip-top"></div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <div class="form-group col-md-4">
+            <div class="e-float-input e-control-wrapper">
+              <input class="e-input e-field" [(ngModel)]="schoolData.address" #address required name="address"
+                id="address" type="text" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)"
+                (keydown.enter)="preventDefault($event)" autocomplete="off" />
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top" for="address">Address</label>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <ejs-maskedtextbox mask="000000" [(ngModel)]="schoolData.pin" #pin required name="pin"
+              placeholder="Pin Code" floatLabelType="Always" minlength="6" (keydown.enter)="preventDefault($event)"
+              autocomplete="off"></ejs-maskedtextbox>
+            <div class="e-tooltip-wrap e-control e-popup e-griderror" *ngIf="
+                schoolForm.form.controls.pin?.touched &&
+                !schoolForm.form.controls.pin?.valid
+              ">
+              <div class="e-tip-content">
+                <label class="e-error" for="pin">This field is required.</label>
+              </div>
+              <div class="e-arrow-tip e-tip-top">
+                <div class="e-arrow-tip-outer e-tip-top"></div>
+                <div class="e-arrow-tip-inner e-tip-top"></div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-4 clearfix">
+            <div class="e-float-input e-control-wrapper">
+              <input class="e-input e-field" [(ngModel)]="schoolData.state" #state required name="state" id="state"
+                type="text" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)"
+                (keydown.enter)="preventDefault($event)" autocomplete="off" />
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top" for="state">State</label>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="e-float-input e-control-wrapper">
+              <input class="e-input e-field" [(ngModel)]="schoolData.country" #country required name="country"
+                id="country" type="text" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)"
+                (keydown.enter)="preventDefault($event)" autocomplete="off" />
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top" for="country">Country</label>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="e-float-input e-control-wrapper">
+              <input class="e-input e-field" [(ngModel)]="schoolData.contactPerson" #contactPerson required
+                name="contactPerson" id="contactPerson" type="text" (focus)="focusIn($event.target)"
+                (blur)="focusOut($event.target)" (keydown.enter)="preventDefault($event)" autocomplete="off" />
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top" for="contactPerson">Contact Person</label>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="e-float-input e-control-wrapper">
+              <input class="e-input e-field" [(ngModel)]="schoolData.ownerName" #ownerName required name="ownerName"
+                id="ownerName" type="text" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)"
+                (keydown.enter)="preventDefault($event)" autocomplete="off" />
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top" for="ownerName">Owner Name</label>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="e-control-wrapper">
+              <ejs-maskedtextbox mask="000-000-0000" [(ngModel)]="schoolData.ownerMobile" #ownerMobile required
+                name="ownerMobile" placeholder="Owner Mobile" floatLabelType="Always" minlength="10"
+                (keydown.enter)="preventDefault($event)" autocomplete="off">
+              </ejs-maskedtextbox>
+              <div class="e-tooltip-wrap e-control e-popup e-griderror" *ngIf="
+                  schoolForm.form.controls.ownerMobile?.touched &&
+                  !schoolForm.form.controls.ownerMobile?.valid
+                ">
+                <div class="e-tip-content">
+                  <label class="e-error" for="ownerMobile">This field is required.</label>
+                </div>
+                <div class="e-arrow-tip e-tip-top">
+                  <div class="e-arrow-tip-outer e-tip-top"></div>
+                  <div class="e-arrow-tip-inner e-tip-top"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="e-float-input e-control-wrapper">
+              <input class="e-input e-field" [(ngModel)]="schoolData.emailId" #emailId required name="emailId"
+                id="emailId" type="email" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)"
+                (keydown.enter)="preventDefault($event)" autocomplete="off" />
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top" for="emailId">Owner Email</label>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="e-float-input e-control-wrapper">
+              <input class="e-input e-field" [(ngModel)]="schoolData.registrationName" #registrationName required
+                name="registrationName" id="registrationName" type="text" (focus)="focusIn($event.target)"
+                (blur)="focusOut($event.target)" (keydown.enter)="preventDefault($event)" autocomplete="off" />
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top" for="registrationName">Registration Name</label>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="e-float-input e-control-wrapper">
+              <ejs-switch type="number" [ngModel]="
+                  schoolData.enableFees == 1
+                    ? true
+                    : schoolData.enableFees == 0
+                    ? false
+                    : null
+                " (ngModelChange)="schoolData.enableFees = $event ? 1 : 0" #enableFees name="enableFees"
+                id="enableFees" (keydown.enter)="preventDefault($event)"></ejs-switch>
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top switch-label" for="enableFees">Enable Fees</label>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="e-float-input e-control-wrapper">
+              <ejs-switch [ngModel]="
+                  schoolData.enableAttendance == 1
+                    ? true
+                    : schoolData.enableAttendance == 0
+                    ? false
+                    : null
+                " (ngModelChange)="schoolData.enableAttendance = $event ? 1 : 0" #enableAttendance
+                name="enableAttendance" id="enableAttendance" (keydown.enter)="preventDefault($event)"></ejs-switch>
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top switch-label" for="enableAttendance"> Enable Attendance </label>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="e-float-input e-control-wrappe">
+              <ejs-switch [ngModel]="
+                  schoolData.enablePrintedWorksheet == 1
+                    ? true
+                    : schoolData.enablePrintedWorksheet == 0
+                    ? false
+                    : null
+                " (ngModelChange)="
+                  schoolData.enablePrintedWorksheet = $event ? 1 : 0
+                " #enablePrintedWorksheet name="enablePrintedWorksheet" id="enablePrintedWorksheet"
+                (keydown.enter)="preventDefault($event)"></ejs-switch>
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top switch-label" for="enablePrintedWorksheet"> Enable Printed
+                Worksheet </label>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <div class="e-float-input e-control-wrappe">
+              <ejs-switch [ngModel]="
+                  schoolData.deleted === '1'
+                    ? true
+                    : schoolData.deleted === '0'
+                    ? false
+                    : null
+                " (ngModelChange)="schoolData.deleted = $event ? '1' : '0'" #deleted name="deleted" id="deleted"
+                (keydown.enter)="preventDefault($event)"></ejs-switch>
+              <span class="e-float-line"></span>
+              <label class="e-float-text e-label-top switch-label" for="deleted"> Active/InActive</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="e-control-wrapper pull-right">
+            <button type="button" [disabled]="schoolForm.invalid" class="e-control e-btn e-primary e-flat"
+              (click)="onSubmit()"> Save </button>
+            <button type="button" class="e-control e-btn e-flat" (click)="cancel()"> Cancel </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ejs-grid>
+</div>

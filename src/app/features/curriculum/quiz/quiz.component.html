@@ -1,0 +1,159 @@
+<div clsaa="col-md-12">
+  <div class="control-section col-md-6 yooyoo">
+    <ejs-grid #grid [showColumnMenu]="false" [allowReordering]="false" [gridLines]="line" [allowPaging]="true"
+      [allowSorting]="true" [allowFiltering]="true" [allowExcelExport]="true" [allowGrouping]="false"
+      [searchSettings]="searchSettings" [editSettings]="editSettings" [filterSettings]="filterOptions"
+      [pageSettings]="pageSettings" [toolbar]="toolbar" [dataSource]="quizs" (toolbarClick)="onToolbarClick($event)"
+      (actionBegin)="actionBegin($event)" (actionComplete)="actionComplete($event)" height=345>
+      <e-columns>
+        <e-column field="quizName" [isPrimaryKey]="true" headerText="QUIZ NAME" textAlign="left" width="150"></e-column>
+        <e-column field="topicName" headerText="TOPIC NAME" textAlign="left" width="150"></e-column>
+        <e-column field="questions.length" headerText="TOTAL QUESTION" textAlign="left" width="150"></e-column>
+      </e-columns>
+      <ng-template #editSettingsTemplate let-data>
+        <div ngForm #quizForm="ngForm" class="quiz">
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <div class="e-float-input e-control-wrapper">
+                <input class="e-input e-field" required [(ngModel)]="quizData.quizName" name="quizName" id="quizName"
+                  type="text" (keydown.enter)="preventDefault($event)" />
+                <span class="e-float-line"></span>
+                <label class="e-float-text e-label-top" for="quizName">Quiz Name</label>
+              </div>
+            </div>
+            <div class="form-group col-md-8">
+              <ejs-dropdownlist #topicId [dataSource]="topics" [(ngModel)]="quizData.topicId"
+                [fields]="{ value: 'id', text: 'name' }" placeholder="Topic" floatLabelType="Always" name="topicId"
+                required></ejs-dropdownlist>
+            </div>
+            <div class="form-group col-md-2">
+              <button class="btn btn-primary" type="button" (click)="onClickAddQuestion()"> Add Question </button>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="e-card" *ngFor="let item of questions; index as i">
+              <div class="e-card-content">
+                <button type="button" class="btn btn-primary btn-xs pull-right action" (click)="onClickAddQuestion()">
+                  <i class="fa fa-plus"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-xs pull-right action" (click)="removeQuestion(i)">
+                  <i class="fa fa-minus"></i>
+                </button>
+                <div class="form-group col-md-6">
+                  <div class="e-float-input e-control-wrapper">
+                    <input type="text" class="e-input e-field" required [(ngModel)]="quizData['question' + i]"
+                      [name]="'question' + i" (keydown.enter)="preventDefault($event)" />
+                    <span class="e-float-line"></span>
+                    <label class="e-float-text e-label-top" [for]="'question' + i">Question {{ i + 1 }}</label>
+                  </div>
+                </div>
+                <!-- <div class="form-group col-md-8" *ngIf="!data.isAdd">
+                  <label class="" for="">Media File</label>
+                  <input type="file" id="fileupload" name="fileupload"
+                    (change)="onFileChange($event, quizData['questionId' + i], i)" placeholder="Upload file"
+                    accept=".mp3,.png,.jpg, .gif, .wav" multiple />
+                  <span class="e-error" *ngIf="errorMsg != ''">{{
+                    errorMsg
+                  }}</span>
+                  <span class="e-success" *ngIf="successMsg != ''">{{
+                    successMsg
+                  }}</span>
+                  <img class="quizmedia" [src]="quizData['imageUrl' + i]">
+                </div> -->
+                <!-- <div class="form-group col-md-6">
+                  <div class="e-float-input e-control-wrapper">
+                    <input class="e-input e-field" required [(ngModel)]="quizData['imageUrl' + i]" [name]="'imageUrl' + i"
+                      type="text" (keydown.enter)="preventDefault($event)" />
+                    <span class="e-float-line"></span>
+                    <label class="e-float-text e-label-top" for="thumbnail">Thumbnail</label>
+                  </div>
+                </div> -->
+                <div class="form-group col-md-6">
+                  <div class="e-float-input e-control-wrapper">
+                    <input class="e-input e-field" required [(ngModel)]="quizData['audio' + i]" [name]="'audio' + i" type="text"
+                      (keydown.enter)="preventDefault($event)" />
+                    <span class="e-float-line"></span>
+                    <label class="e-float-text e-label-top" for="audio">Audio {{ i + 1 }}</label>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <div class="e-float-input e-control-wrapper">
+                    <div class="questions">
+                      <ejs-radiobutton value="1" class="answers" cssClass="e-style answers"
+                        [(ngModel)]="quizData['answer' + i]" [name]="'answer' + i" required></ejs-radiobutton>
+                      <input class="e-input e-field" required [name]="'option0_' + i"
+                        [(ngModel)]="quizData['option0_' + i]" type="text" (keydown.enter)="preventDefault($event)" />
+                      <label class="e-float-text e-label-top" for="">Option 1</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-md-5">
+                  <div class="e-float-input e-control-wrapper">
+                    <input class="e-input e-field" required [(ngModel)]="quizData['option1ImageLink' + i]" [name]="'option1ImageLink' + i"
+                      type="text" (keydown.enter)="preventDefault($event)" />
+                    <span class="e-float-line"></span>
+                    <label class="e-float-text e-label-top" for="thumbnail">Thumbnail 1</label>
+                  </div>
+                </div>
+                <div class="form-group text-center col-md-1">
+                  <img src="{{thumbnailUrl + quizData['option1ImageLink' + i]}}" height="50" />
+                </div>
+                <div class="form-group col-md-6 clearfix">
+                  <div class="e-float-input e-control-wrapper">
+                    <div class="questions">
+                      <ejs-radiobutton value="2" class="answers" cssClass="e-style answers"
+                        [(ngModel)]="quizData['answer' + i]" [name]="'answer' + i" required></ejs-radiobutton>
+                      <input class="e-input e-field" required [name]="'option1_' + i"
+                        [(ngModel)]="quizData['option1_' + i]" type="text" (keydown.enter)="preventDefault($event)" />
+                      <label class="e-float-text e-label-top" for="">Option 2</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-md-5">
+                  <div class="e-float-input e-control-wrapper">
+                    <input class="e-input e-field" required [(ngModel)]="quizData['option2ImageLink' + i]" [name]="'option2ImageLink' + i"
+                      type="text" (keydown.enter)="preventDefault($event)" />
+                    <span class="e-float-line"></span>
+                    <label class="e-float-text e-label-top" for="thumbnail">Thumbnail 2</label>
+                  </div>
+                </div>
+                <div class="form-group text-center col-md-1">
+                  <img src="{{thumbnailUrl + quizData['option2ImageLink' + i]}}" height="50" />
+                </div>
+                <div class="form-group col-md-6 clearfix">
+                  <div class="e-float-input e-control-wrapper">
+                    <div class="questions">
+                      <ejs-radiobutton value="3" class="answers" cssClass="e-style answers"
+                        [(ngModel)]="quizData['answer' + i]" [name]="'answer' + i" required></ejs-radiobutton>
+                      <input class="e-input e-field" required [name]="'option2_' + i"
+                        [(ngModel)]="quizData['option2_' + i]" type="text" (keydown.enter)="preventDefault($event)" />
+                      <label class="e-float-text e-label-top" for="">Option 3</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-md-5">
+                  <div class="e-float-input e-control-wrapper">
+                    <input class="e-input e-field" required [(ngModel)]="quizData['option3ImageLink' + i]" [name]="'option3ImageLink' + i"
+                      type="text" (keydown.enter)="preventDefault($event)" />
+                    <span class="e-float-line"></span>
+                    <label class="e-float-text e-label-top" for="thumbnail">Thumbnail 3</label>
+                  </div>
+                </div>
+                <div class="form-group text-center col-md-1">
+                  <img src="{{thumbnailUrl + quizData['option3ImageLink' + i]}}" height="50" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="e-control-wrapper pull-right">
+              <button type="button" [disabled]="quizForm.invalid" class="e-control e-btn e-primary e-flat"
+                (click)="onSubmit()"> Save </button>
+              <button type="button" class="e-control e-btn e-flat" (click)="cancel()"> Cancel </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ejs-grid>
+  </div>
+</div>

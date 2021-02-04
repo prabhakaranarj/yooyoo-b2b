@@ -1,0 +1,134 @@
+<mat-tab-group [ngClass]="
+    urole !== 'SUPERADMIN' && urole !== 'YOOYOOADMIN' ? 'header-less-tabs' : ''
+  ">
+  <mat-tab>
+    <ng-template mat-tab-label> School Assignment</ng-template>
+    <yoo-assignment-school></yoo-assignment-school>
+  </mat-tab>
+  <!-- <mat-tab>
+    <ng-template mat-tab-label> Quiz</ng-template>
+  <yoo-quiz-view></yoo-quiz-view>
+  </mat-tab> -->
+  <mat-tab>
+    <ng-template mat-tab-label>Create / Modify Assignment</ng-template>
+    <div class="control-section yooyoo">
+      <ejs-grid #grid *ngIf="showLoader" [showColumnMenu]="false" height=300 [allowReordering]="false"
+        [gridLines]="line" [allowPaging]="true" [allowSorting]="true" [allowFiltering]="true" [allowExcelExport]="true"
+        [allowGrouping]="false" [searchSettings]="searchSettings" [editSettings]="editSettings"
+        [filterSettings]="filterOptions" [pageSettings]="pageSettings" [toolbar]="toolbar" [dataSource]="assignments"
+        (toolbarClick)="onToolbarClick($event)" (actionBegin)="actionBegin($event)"
+        (actionComplete)="actionComplete($event)" height=345>
+        <e-columns>
+          <e-column field="name" headerText="SCHOOL" textAlign="left" width="250" [isPrimaryKey]="true">
+          </e-column>
+          <e-column field="grade.name" headerText="CLASS" textAlign="left" width="150"></e-column>
+          <e-column field="subject.name" headerText="SUBJECT" textAlign="left" width="150"></e-column>
+          <e-column field="topic.name" headerText="TOPIC" textAlign="left" width="200"></e-column>
+          <e-column field="date" headerText="From Date" textAlign="left" width="150">
+          </e-column>
+          <e-column field="toDate" headerText="To Date" textAlign="left" width="150"></e-column>
+          <e-column headerText="MEDIA" textAlign="left" width="250">
+            <ng-template #template let-data>
+              <button type="button" class="btn btn-googleplus waves-effect waves-light"
+                (click)="openWorksheet(data.topic.worksheetLink)">
+                <i class="far fa-file-pdf m-r-5"></i>
+              </button>
+              <button type="button" class="btn btn-googleplus waves-effect waves-light"
+                (click)="onOpenDialog(data.topic.videoLink)">
+                <i class="fas fa-video m-r-5"></i>
+              </button>
+              <button type="button" class="btn btn-googleplus waves-effect waves-light"
+                (click)="openQuizView(data.topic)">
+                <i class="fas fa-question-circle m-r-5"></i>
+              </button>
+            </ng-template>
+          </e-column>
+        </e-columns>
+        <ng-template #editSettingsTemplate let-data>
+          <div ngForm #assignmentForm="ngForm">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <ejs-dropdownlist #schoolId [dataSource]="schoolData" [(ngModel)]="assignmentData.schoolId"
+                  [fields]="{ value: 'id', text: 'name' }" placeholder="School" floatLabelType="Always" name="schoolId"
+                  required></ejs-dropdownlist>
+              </div>
+              <div class="form-group col-md-6">
+                <ejs-dropdownlist #grade [dataSource]="gradeData" [(ngModel)]="assignmentData.grade"
+                  [fields]="{ value: 'name', text: 'name' }" placeholder="Grade" floatLabelType="Always" name="grade"
+                  required></ejs-dropdownlist>
+              </div>
+              <div class="form-group col-md-6">
+                <ejs-dropdownlist #subjectId [dataSource]="subjects" [(ngModel)]="assignmentData.subjectId"
+                  [fields]="{ value: 'id', text: 'name' }" (change)="onSubjectChange($event)" placeholder="Subject"
+                  floatLabelType="Always" name="subjectId" required></ejs-dropdownlist>
+              </div>
+              <div class="form-group col-md-6">
+                <ejs-dropdownlist #topic [dataSource]="topicData" [(ngModel)]="assignmentData.topicId"
+                  [fields]="{ value: 'id', text: 'name' }" placeholder="Topic" floatLabelType="Always" name="topicId"
+                  required></ejs-dropdownlist>
+              </div>
+              <div class="form-group col-md-6">
+                <div class="e-control-wrapper">
+                  <ejs-datepicker cssClass="e-style" strictMode="true" 
+                    [ngModel]="assignmentData.date | date:'MM/dd/yyyy'" #date
+                    (ngModelChange)="assignmentData.date=$event" name="date" required></ejs-datepicker>
+                  <span class="e-float-line"></span>
+                  <label class="e-float-text e-label-top y-date" for="date">From Date</label>
+                  <div class="e-tooltip-wrap e-control e-popup e-griderror" *ngIf="
+                      assignmentForm.form.controls.date?.touched &&
+                      !assignmentForm.form.controls.date?.valid
+                    ">
+                    <div class="e-tip-content">
+                      <label class="e-error" for="date">This field is invalid.</label>
+                    </div>
+                    <div class="e-arrow-tip e-tip-top">
+                      <div class="e-arrow-tip-outer e-tip-top"></div>
+                      <div class="e-arrow-tip-inner e-tip-top"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <div class="e-control-wrapper">
+                  <ejs-datepicker cssClass="e-style" strictMode="true" [min]="maxDate"
+                    [ngModel]="assignmentData.toDate | date:'MM/dd/yyyy'" #toDate
+                    (ngModelChange)="assignmentData.toDate=$event" name="toDate" required></ejs-datepicker>
+                  <span class="e-float-line"></span>
+                  <label class="e-float-text e-label-top y-date" for="toDate">To Date</label>
+                  <div class="e-tooltip-wrap e-control e-popup e-griderror" *ngIf="
+                      assignmentForm.form.controls.toDate?.touched &&
+                      !assignmentForm.form.controls.toDate?.valid
+                    ">
+                    <div class="e-tip-content">
+                      <label class="e-error" for="toDate">This field is invalid.</label>
+                    </div>
+                    <div class="e-arrow-tip e-tip-top">
+                      <div class="e-arrow-tip-outer e-tip-top"></div>
+                      <div class="e-arrow-tip-inner e-tip-top"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="e-control-wrapper pull-right">
+                <button type="submit" [disabled]="assignmentForm.invalid" class="e-control e-btn e-primary e-flat"
+                  (click)="onSubmit()"> Save </button>
+                <button type="button" class="e-control e-btn e-flat" (click)="cancel()"> Cancel </button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ejs-grid>
+      <ejs-dialog id="dialog" #Dialog isModal="true" header="" [visible]="false" showOnInit="false" showCloseIcon="true"
+        (close)="dialogClose()" [content]="dialogContent">
+      </ejs-dialog>
+      <ejs-dialog id="dialog1" isModal="true" #Dialog1 [visible]="false" showOnInit="false" showCloseIcon="false"
+        (close)="dialogClose()" [showCloseIcon]="true">
+        <ng-template #content>
+          <yoo-quiz-view [selectedTopic]="selectedTopic" *ngIf="selectedTopic.length"></yoo-quiz-view>
+        </ng-template>
+      </ejs-dialog>
+    </div>
+  </mat-tab>
+</mat-tab-group>

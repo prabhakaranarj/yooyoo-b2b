@@ -1,0 +1,98 @@
+<div clsaa="col-md-12">
+  <div class="control-section col-md-6 yooyoo">
+    <ejs-grid
+      #grid
+      [showColumnMenu]="false"
+      [allowReordering]="false"
+      [gridLines]="line"
+      [allowPaging]="true"
+      [allowSorting]="true"
+      [allowFiltering]="true"
+      [allowExcelExport]="true"
+      [allowGrouping]="false"
+      [searchSettings]="searchSettings"
+      [editSettings]="editSettings"
+      [filterSettings]="filterOptions"
+      [pageSettings]="pageSettings"
+      [toolbar]="toolbar"
+      [dataSource]="subjects"
+      (toolbarClick)="onToolbarClick($event)"
+      (actionBegin)="actionBegin($event)"
+      (actionComplete)="actionComplete($event)"
+      height=345
+    >
+      <e-columns>
+        <e-column
+          field="name"
+          headerText="SUBJECTS NAME"
+          textAlign="left"
+          width="150"
+          [isPrimaryKey]="true"
+        ></e-column>
+      
+      </e-columns>
+      <ng-template #editSettingsTemplate let-data>
+        <div ngForm #subjectForm="ngForm" class="subject">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <div class="e-float-input e-control-wrapper">
+                <input class="e-input e-field" required [(ngModel)]="subjectData.name" name="name"
+                  id="name" type="text" />
+                <span class="e-float-line"></span>
+                <label class="e-float-text e-label-top" for="name">Subject Name</label>
+              </div>
+            </div>
+            <div class="form-group col-md-4" *ngIf="!data.isAdd">
+              <label class="" for="fileupload">Image File</label>
+              <input type="file" id="fileupload" name="fileupload" (change)="onFileChange($event, subjectData['id'])"
+                placeholder="Upload file" accept=".png, .jpg, .gif" required />
+              <span class="e-error" *ngIf="errorMsg != ''">{{errorMsg}}</span>
+              <span class="e-success" *ngIf="successMsg != ''">{{successMsg}}</span>
+            </div>
+            <div class="form-group col-md-4" *ngIf="!data.isAdd">
+              <img class="subjectImage" [src]="imgURL" />
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="e-control-wrapper pull-right">
+              <button type="submit" [disabled]="subjectForm.invalid" class="e-control e-btn e-primary e-flat"
+                (click)="onSubmit()"> Save </button>
+              <button type="button" class="e-control e-btn e-flat" (click)="cancel()"> Cancel </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ejs-grid>
+  </div>
+  <div class="control-section col-md-6 yooyoo">
+    <ejs-grid
+      #grid
+      [showColumnMenu]="false"
+      [allowReordering]="false"
+      [gridLines]="line"
+      [allowPaging]="true"
+      [allowSorting]="true"
+      [allowFiltering]="true"
+      [allowExcelExport]="true"
+      [allowGrouping]="false"
+      [searchSettings]="searchSettings"
+      [editSettings]="editSettings1"
+      [filterSettings]="filterOptions"
+      [pageSettings]="pageSettings"
+      [toolbar]="toolbar1"
+      [dataSource]="categories"
+      (toolbarClick)="onToolbarClick($event)"
+      (actionBegin)="actionBegin2($event)"
+      height=345
+    >
+      <e-columns>
+        <e-column
+          field="name"
+          headerText="CATEGORIES NAME"
+          textAlign="left"
+          width="150"
+        ></e-column>
+      </e-columns>
+    </ejs-grid>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+
+<section>
+  <div class="row">
+    <div class="framebody">
+      <form class="form-horizontal" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+        <div class="hand"></div>
+        <div class="hand rgt"></div>
+        <div class="text-center">
+          <span><img src="assets/images/logo.png" alt="" height="50"></span>
+          <!-- <h1>Login</h1> -->
+        </div>
+        <div class="form-group">
+          <div class="e-float-input e-control-wrapper">
+            <input class="e-input e-field" floatLabelType="Auto" ngModel #email required name="email" id="email"
+              type="text" />
+            <span class="e-float-line"></span>
+            <label class="e-float-text" for="email">Email</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="e-float-input e-control-wrapper">
+            <input class="e-input e-field" floatLabelType="Auto" ngModel #password required name="password"
+              id="password" type="password" />
+            <span class="e-float-line"></span>
+            <label class="e-float-text" for="password">Password</label>
+          </div>
+          <a href="#" (click)="resetPassword(email)">Forgot Password?</a>
+        </div>
+        <div class="form-group">
+          <recaptcha  [(ngModel)]="myRecaptcha" name="myRecaptcha" (scriptLoad)="onScriptLoad()"
+            (scriptError)="onScriptError()"></recaptcha>
+        </div>
+        <div class="text-center form-group">
+          <!-- <p class="alert">Invalid Credentials..!!</p> -->
+          <button class="btn" [disabled]="loginForm.invalid">Login </button>
+          
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

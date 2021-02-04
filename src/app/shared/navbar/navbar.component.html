@@ -1,0 +1,32 @@
+<ul class="nav navbar-nav navigation-menu">
+  <li class="has-submenu" routerLinkActive="active">
+    <a [routerLink]="['/dashboard']"><i class="mdi mdi-view-dashboard"></i>Dashboard</a>
+  </li>
+  <li class="has-submenu" routerLinkActive="active" *ngIf="urole === 'SUPERADMIN' || urole === 'YOOYOOADMIN'">
+    <a [routerLink]="['/school']"><i class="fas fa-school"></i>School</a>
+  </li>
+  <li class="has-submenu" routerLinkActive="active" >
+    <a [routerLink]="['/users']"><i class="fas fa-users"></i>Users</a>
+  </li>
+  <li class="has-submenu" routerLinkActive="active" *ngIf="urole === 'SUPERADMIN' || urole === 'YOOYOOADMIN'">
+    <a [routerLink]="['/curriculum']"><i class="fas fa-podcast"></i>Curriculum</a>
+  </li>
+  <li class="has-submenu" routerLinkActive="active">
+    <a [routerLink]="['/assignment']"><i class="fas fa-tasks "></i>Assignment</a>
+  </li>
+  <li class="has-submenu" routerLinkActive="active">
+    <a [routerLink]="['/reports']"><i class="mdi mdi-comment-text"></i>Reports</a>
+  </li>
+  <li class="has-submenu" routerLinkActive="active" *ngIf="(urole === 'SCHOOLOWNER' || urole === 'TEACHER') && enableAttendance">
+    <a [routerLink]="['/attendance']"><i class="mdi mdi-book-multiple"></i>Attendance</a>
+  </li>
+  <li class="has-submenu" routerLinkActive="active" *ngIf="(urole === 'SCHOOLOWNER' || urole === 'SUPERADMIN') && enableFees">
+    <a [routerLink]="['/fees']"><i class="fas fa-money-bill"></i>Fees</a>
+  </li>
+  <li class="has-submenu" routerLinkActive="active">
+    <a [routerLink]="['/notifications']"><i class="fas fa-bell"></i>Notice Board</a>
+  </li>
+  <!-- <li class="has-submenu" routerLinkActive="active" *ngIf="urole === 'SCHOOLOWNER' || urole === 'SUPERADMIN'">
+    <a [routerLink]="['/raise-a-ticket']"><i class="fas fa-ticket-alt"></i>Raise a Ticket</a>
+  </li> -->
+</ul>

@@ -1,0 +1,305 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import url(https://fonts.googleapis.com/css?family=Varela+Round);
+@import "../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
+body {
+  font-family: "Varela Round", sans-serif !important;
+  margin: 0;
+  padding-bottom: 65px;
+  overflow-x: hidden;
+  color: #797979;
+}
+
+@media only screen and (min-width: 1920px) {
+  .container {
+    width: 1600px !important;
+  }
+  .wrapper .container {
+    margin-top: 30px !important;
+  }
+}
+
+/* toaster styles starts */
+
+/* toaster styles */
+
+.toast-top-right {
+  top: 100px !important;
+  right: 100px !important;
+}
+
+#toast-container > div {
+  width: 400px !important;
+  opacity: 0.8;
+}
+
+#toast-container > .toast-success {
+  border: 3px solid #328132;
+}
+
+#toast-container > .toast-error {
+  border: 3px solid #a2241e;
+}
+
+#toast-container > .toast-info {
+  border: 3px solid #1d7189;
+}
+
+#toast-container > .toast-warning {
+  border: 3px solid #c47505;
+}
+
+.toast-close-button {
+  right: -0.1em !important;
+}
+
+.clearfix {
+  clear: both;
+}
+
+/* toaster styles starts */
+
+/* ej2 styles */
+
+td.e-rowcell .statustxt.e-activecolor {
+  color: #00cc00;
+  position: relative;
+}
+
+td.e-rowcell .statustxt.e-inactivecolor {
+  color: #e60000;
+  position: relative;
+}
+
+.statustemp.e-inactivecolor {
+  background-color: #ffd7cc;
+  width: 64px;
+}
+
+.statustemp.e-activecolor {
+  background-color: #ccffcc;
+  width: 57px;
+}
+
+.statustemp {
+  position: relative;
+  height: 19px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.e-control.e-grid td.e-active {
+  background-color: #999;
+  color: #000 !important;
+}
+
+#dialog {
+  height: 100% !important;
+  overflow: hidden;
+  width: 100% !important;
+
+}
+#dialog .e-dlg-content {
+  overflow: hidden;
+  background-color: #000 !important;
+
+}
+#dialog1 .e-dlg-content {
+  background-color: #000 !important;
+}
+#dialog .e-dlg-header-content, #dialog1 .e-dlg-header-content {
+  background: transparent !important;
+  position: absolute;
+  right: 0;
+}
+#dialog .e-dlg-closeicon-btn.e-control.e-btn.e-lib.e-flat.e-icon-btn, #dialog1 .e-dlg-closeicon-btn.e-control.e-btn.e-lib.e-flat.e-icon-btn{
+background: #ddd !important;
+}
+.e-control.e-grid.e-default.e-bothlines .e-headercell,
+.e-control.e-grid.e-default.e-bothlines .e-detailheadercell {
+  background-color: #f1f1f1;
+}
+
+.e-control.e-grid .e-columnheader th .e-headertext {
+  font-family: "Hind Madurai", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.yooyoo td,
+.yooyoo th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.yooyoo tr:nth-child(even) {
+  background-color: #f1f1f1;
+}
+
+.yooyoo tr:hover {
+  background-color: #ddd;
+}
+
+/* .e-row.e-altrow {
+ background-color: #f7f7f7;
+} */
+
+/* .deleted {
+  background-color: #cccccc;
+}
+
+.deleted td {
+  color: #999 !important;
+} */
+
+.e-control.e-grid .e-rowcell,
+.form-group input,
+.e-tbar-btn-text,
+.e-control,
+.e-css,
+.e-float-input,
+.e-float-input.e-control-wrapper,
+.e-float-input.e-disabled,
+.e-float-input.e-control-wrapper.e-disabled,
+.e-float-input.e-input-group.e-disabled,
+.e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: "Varela Round", sans-serif !important;
+  font-size: 14px;
+  color: #797979 !important;
+}
+
+/* ej2 styles */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Varela Round", sans-serif;
+}
+
+/* Material Design custom css */
+
+.mat-wrapper {
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12);
+  margin: 4px;
+}
+
+.mat-header {
+  color: #333;
+  background: rgba(0, 0, 0, 0.03);
+  padding: 17px 20px;
+  font-size: 18px;
+}
+
+.mat-body {
+  padding: 20px;
+}
+
+.mat-form-field {
+  width: 100%;
+  font-size: 16px;
+}
+
+textarea.mat-input-element {
+  height: 80px;
+}
+.mat-tab-body-content {
+    overflow: hidden !important;
+    /* height: 100vh !important; */
+}
+.mat-fab.mat-accent,
+.mat-flat-button.mat-accent,
+.mat-mini-fab.mat-accent,
+.mat-raised-button.mat-accent {
+  background: #f06292;
+  color: #ffffff;
+}
+
+.mat-pseudo-checkbox-checked::after {
+  height: 6px !important;
+  width: 9px !important;
+}
+
+.custom-height {
+  /* overflow-y: scroll; */
+  height: 350px;
+}
+
+/* Loader */
+
+.hidden {
+  display: none;
+}
+
+.loader-overlay {
+  position: absolute;
+  width: 100%;
+  z-index: 500000;
+  top: 0;
+}
+
+.loader {
+  height: 4px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.loader:before {
+  display: block;
+  position: absolute;
+  content: "";
+  left: -200px;
+  width: 200px;
+  height: 4px;
+  background-color: red;
+  animation: loading 2s linear infinite;
+}
+
+ejs-switch {
+  margin-top: 15px !important;
+}
+
+@keyframes loading {
+  from {
+    left: -200px;
+    width: 30%;
+  }
+  50% {
+    width: 30%;
+  }
+  70% {
+    width: 70%;
+  }
+  80% {
+    left: 50%;
+  }
+  95% {
+    left: 120%;
+  }
+  to {
+    left: 100%;
+  }
+}
+#dialog iframe {
+    width: 100vw!important;
+    height: 100vh!important;
+}
+
+/* .e-lib.e-dialog .e-dlg-content{
+  padding:0 !important;
+} */
+
+.e-lib.e-dialog {
+  max-height: 100% !important
+}
+
+.view-dialog {
+    width: 50%;
+}

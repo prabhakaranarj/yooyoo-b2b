@@ -1,0 +1,89 @@
+<div class="container-fluid view-dialog" *ngIf="load">
+  <h2 *ngIf="!quizData">No Quiz Data!</h2>
+  <div class="control-section col-md-12 yooyoo">
+    <div ngForm #quizForm="ngForm"  *ngIf="quizData">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <div class="e-float-input e-control-wrapper">
+            <input class="e-input e-field" required [(ngModel)]="quizData.quizName" name="quizName" id="quizName"
+              type="text" readonly />
+            <span class="e-float-line"></span>
+            <label class="e-float-text e-label-top" for="quizName">Quiz Name</label>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <div class="e-float-input e-control-wrapper">
+            <input class="e-input e-field" required [(ngModel)]="quizData.topicName" name="topicName" id="topicName"
+              type="text" readonly />
+            <span class="e-float-line"></span>
+            <label class="e-float-text e-label-top" for="topicName">Topic Name</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="e-card" *ngFor="let item of questions; index as i">
+          <div class="e-card-content">
+            <div class="form-group col-md-12">
+              <div class="e-float-input e-control-wrapper">
+                <input type="text" class="e-input e-field" required [(ngModel)]="quizData['question' + i]"
+                  [name]="'question' + i" readonly />
+                <span class="e-float-line"></span>
+                <label class="e-float-text e-label-top" [for]="'question' + i">Question {{ i + 1 }}</label>
+              </div>
+            </div>
+            <!-- <div class="form-group col-md-6">
+              <div class="e-float-input e-control-wrapper">
+                <input class="e-input e-field" required [(ngModel)]="quizData['audio' + i]" [name]="'audio' + i"
+                  type="text" readonly />
+                <span class="e-float-line"></span>
+                <label class="e-float-text e-label-top" for="audio">Audio {{ i + 1 }}</label>
+              </div>
+            </div> -->
+            <div class="form-group col-md-6">
+              <div class="e-float-input e-control-wrapper">
+                <div class="questions">
+                  <ejs-radiobutton value="1" class="answers" cssClass="e-style answers"
+                    [(ngModel)]="quizData['answer' + i]" [name]="'answer' + i" disabled></ejs-radiobutton>
+                  <input class="e-input e-field" readonly [name]="'option0_' + i" [(ngModel)]="quizData['option0_' + i]"
+                    type="text" />
+                  <label class="e-float-text e-label-top" for="">Option 1</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group text-center col-md-1">
+              <img src="{{thumbnailUrl + quizData['option1ImageLink' + i]}}" height="50" />
+            </div>
+            <div class="form-group col-md-6 clearfix">
+              <div class="e-float-input e-control-wrapper">
+                <div class="questions">
+                  <ejs-radiobutton value="2" class="answers" cssClass="e-style answers"
+                    [(ngModel)]="quizData['answer' + i]" [name]="'answer' + i" disabled></ejs-radiobutton>
+                  <input class="e-input e-field" readonly [name]="'option1_' + i" [(ngModel)]="quizData['option1_' + i]"
+                    type="text" />
+                  <label class="e-float-text e-label-top" for="">Option 2</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group text-center col-md-1">
+              <img src="{{thumbnailUrl + quizData['option2ImageLink' + i]}}" height="50" />
+            </div>
+            <div class="form-group col-md-6 clearfix">
+              <div class="e-float-input e-control-wrapper">
+                <div class="questions">
+                  <ejs-radiobutton value="3" class="answers" cssClass="e-style answers"
+                    [(ngModel)]="quizData['answer' + i]" [name]="'answer' + i" disabled></ejs-radiobutton>
+                  <input class="e-input e-field" readonly [name]="'option2_' + i" [(ngModel)]="quizData['option2_' + i]"
+                    type="text" />
+                  <label class="e-float-text e-label-top" for="">Option 3</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group text-center col-md-1">
+              <img src="{{thumbnailUrl + quizData['option3ImageLink' + i]}}" height="50" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

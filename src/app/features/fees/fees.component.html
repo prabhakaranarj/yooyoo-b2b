@@ -1,0 +1,42 @@
+<div class="control-section">
+    <div class="row" style="margin-top:5px;" [ngClass]="
+          urole !== 'SUPERADMIN' && urole !== 'YOOYOOADMIN' ? 'hidden' : ''
+        ">
+      <div class="col-md-12 col-xs-12">
+        <div class="col-md-2">
+          <ejs-dropdownlist #schoolId [dataSource]="schoolData" [fields]="{ value: 'id', text: 'name' }"
+            placeholder="School" name="schoolId" (select)="onChangeSchool($event)"></ejs-dropdownlist>
+        </div>
+      </div>
+    </div>
+  <ejs-grid #grid [showColumnMenu]="false" [allowReordering]="false" [gridLines]="line" [allowPaging]="true"
+    [allowSorting]="true" [allowFiltering]="true" [allowExcelExport]="true" [allowGrouping]="false"
+    [searchSettings]="searchSettings" [editSettings]="editSettings" [filterSettings]="filterOptions"
+    allowTextWrap='true' [textWrapSettings]='wrapSettings' [selectionSettings]="selectionOptions"
+    [pageSettings]="pageSettings" [toolbar]="toolbar" [dataSource]="fees" (toolbarClick)="onToolbarClick($event)"
+    (actionBegin)="actionBegin($event)" (actionComplete)="actionComplete($event)" height=400>
+    <e-columns>
+      <e-column field="studentName" headerText="STUDENT NAME" [isPrimaryKey]="true" textAlign="left" width="200">
+      </e-column>
+      <e-column field="gradeName" headerText="CLASS" textAlign="left" width="120" [allowEditing]="false"></e-column>
+      <e-column field="tutionFee" headerText="TUTION FEE" textAlign="left" width="170" editType="numericedit"
+        [edit]="numericParams">
+      </e-column>
+      <e-column field="paidTutionFee" headerText="TUTION FEE PAID" textAlign="left" width="170" editType="numericedit"
+        [edit]="numericParams">
+      </e-column>
+      <e-column headerText="TUTION FEE PENDING" textAlign="left" width="170" [allowEditing]="false">
+        <ng-template #template let-data> {{data.tutionFee - data.paidTutionFee}} </ng-template>
+      </e-column>
+      <e-column field="transportationFee" headerText="TRANSPORT FEE" textAlign="left" width="170" editType="numericedit"
+        [edit]="numericParams">
+      </e-column>
+      <e-column field="paidTransportFee" headerText="TRANSPORT FEE PAID" textAlign="left" width="170" editType="numericedit"
+        [edit]="numericParams">
+      </e-column>
+      <e-column headerText="TRANSPORT FEE PENDING" textAlign="left" width="170" [allowEditing]="false">
+        <ng-template #template let-data> {{data.transportationFee - data.paidTransportFee}} </ng-template>
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+</div>

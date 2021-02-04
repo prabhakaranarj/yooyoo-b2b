@@ -1,0 +1,9 @@
+<app-loader></app-loader>
+<yoo-header *ngIf="page != 'Home' && page != 'Logout'"></yoo-header>
+<yoo-toaster></yoo-toaster>
+<div class="wrapper">
+  <div class="container">
+     
+    <router-outlet></router-outlet></div>
+</div>
+<yoo-footer *ngIf="page != 'Home' && page != 'Logout'"></yoo-footer>
